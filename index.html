@@ -788,19 +788,21 @@ window.__VIDEOS__ = [
     var vn = document.getElementById('vnote-s29');
     var VV = window.__VIDEOS__ || [];
     if(!vg || !VV.length) return;
-    var anyPending = VV.some(function(v){ return !(v.url && v.url.trim()); });
+    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function safeUrl(u){ return (u && /^https:\/\//i.test(u.trim())) ? u.trim() : ''; }
+    var anyPending = VV.some(function(v){ return !safeUrl(v.url); });
     if(anyPending && vn){
       vn.innerHTML = '<div class="vnote">影片錄製中，連結會陸續補上。掃碼後這個網址不會變，之後再回來看就有了。</div>';
     }
     vg.innerHTML = VV.map(function(v){
-      var live = v.url && v.url.trim();
+      var live = safeUrl(v.url);
       return '<div class="vcard">' +
-        '<div class="vn">' + v.n + '</div>' +
-        '<h3>' + v.title + '</h3>' +
-        '<p class="vwhat">' + v.what + '</p>' +
-        '<p class="vwhy">' + v.why + '</p>' +
-        '<p class="vmeta"><span>' + v.len + (live ? '' : '　·　尚未上線') + '</span>' +
-        '<a class="vgo" href="' + (live ? v.url : '#') + '"' +
+        '<div class="vn">' + esc(v.n) + '</div>' +
+        '<h3>' + esc(v.title) + '</h3>' +
+        '<p class="vwhat">' + esc(v.what) + '</p>' +
+        '<p class="vwhy">' + esc(v.why) + '</p>' +
+        '<p class="vmeta"><span>' + esc(v.len) + (live ? '' : '　·　尚未上線') + '</span>' +
+        '<a class="vgo" href="' + (live ? esc(live) : '#') + '"' +
         (live ? ' target="_blank" rel="noopener"' : ' aria-disabled="true"') + '>' +
         (live ? '觀看 →' : '準備中') + '</a></p>' +
         '</div>';
