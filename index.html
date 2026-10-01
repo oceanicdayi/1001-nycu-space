@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Agent 賦能｜從個人研究軌跡，看見智慧化地震測報新藍圖</title>
+<meta name="description" content="陳達毅 @ 國立陽明交通大學 太空研究所，2026.10.01">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b14; --bg2:#0c1322; --panel:#111a2c; --line:#1e2c44;
+  --ink:#e8eef7; --dim:#a9bad2; --mute:#7488a5;
+  --cy:#38e1d6; --am:#ffb340; --rd:#ff5c6e; --bl:#7aa2f7;
+
+  --title-size: clamp(1.6rem, 4.6vw, 3.6rem);
+  --h2-size:    clamp(1.15rem, 2.9vw, 2.2rem);
+  --h3-size:    clamp(.95rem, 1.5vw, 1.2rem);
+  --body-size:  clamp(.78rem, 1.15vw, 1.02rem);
+  --small-size: clamp(.66rem, .88vw, .82rem);
+
+  --slide-padding: clamp(1.1rem, 3.6vw, 3.4rem);
+  --content-gap:   clamp(.5rem, 1.6vh, 1.4rem);
+  --element-gap:   clamp(.3rem, .9vh, .8rem);
+
+  --cjk:"Noto Sans TC","Microsoft JhengHei","PingFang TC","Hiragino Sans TC","Heiti TC",sans-serif;
+  --lat:"Archivo","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,"Courier New",monospace;
+}
+html,body{height:100%;overflow-x:hidden}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--bg)}
+body{
+  font-family:var(--lat),var(--cjk);
+  color:var(--ink);background:var(--bg);
+  font-size:var(--body-size);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+/* 全域格線底紋 */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(56,225,214,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,225,214,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+}
+.slide{
+  width:100vw;height:100vh;height:100dvh;overflow:hidden;
+  scroll-snap-align:start;display:flex;flex-direction:column;position:relative;
+  border-bottom:1px solid rgba(30,44,68,.6);
+}
+.slide-content{
+  flex:1;display:flex;flex-direction:column;justify-content:flex-start;
+  max-height:100%;overflow:hidden;
+  padding:clamp(2.4rem,8.5vh,4.6rem) var(--slide-padding) var(--slide-padding);
+  gap:var(--content-gap);position:relative;z-index:1;
+}
+/* 這幾種版型維持垂直置中 */
+.slide.title .slide-content,.slide.section .slide-content,
+.slide.quote .slide-content,.slide.closing .slide-content{
+  justify-content:center;padding-top:var(--slide-padding);
+}
+/* 內容比可用高度短時，主要區塊自己吃掉剩餘空間 */
+.slide-content>.two{flex:1;min-height:0}
+.slide-content>.quad,.slide-content>.agrid,.slide-content>.grid3,
+.slide-content>.tl,.slide-content>.irow,.slide-content>.stack,
+.slide-content>.statrow,.slide-content>.vtwo{flex:1;min-height:0;align-content:stretch}
+.slide-content>.advlist,.slide-content>.qlist,.slide-content>.pipe{
+  flex:1;min-height:0;justify-content:space-evenly}
+/* 純文字版型維持垂直置中 */
+.slide.bullets .slide-content{justify-content:center}
+/* 每頁左上角的段落標記 */
+.tag{
+  position:absolute;top:calc(var(--slide-padding) * .55);left:var(--slide-padding);
+  font-size:var(--small-size);letter-spacing:.18em;color:var(--mute);
+  text-transform:uppercase;z-index:2;
+}
+.tag b{color:var(--cy);font-weight:600}
+.pageno{
+  position:absolute;bottom:calc(var(--slide-padding) * .5);right:var(--slide-padding);
+  font-family:var(--mono);font-size:var(--small-size);color:var(--mute);z-index:2;
+}
+
+h1{font-size:var(--title-size);line-height:1.1;font-weight:800;letter-spacing:-.01em}
+h2{font-size:var(--h2-size);line-height:1.2;font-weight:700;letter-spacing:-.005em}
+h3{font-size:var(--h3-size);line-height:1.3;font-weight:700}
+b,strong{color:#fff;font-weight:700}
+
+.kicker{
+  font-size:var(--small-size);letter-spacing:.2em;color:var(--cy);
+  text-transform:uppercase;margin-bottom:.35em;font-weight:600;
+}
+.lead{font-size:clamp(.9rem,1.5vw,1.25rem);color:var(--ink);line-height:1.5}
+.body{color:var(--dim);margin-top:var(--element-gap)}
+.foot{font-size:var(--small-size);color:var(--mute);margin-top:var(--element-gap)}
+.cap{font-size:var(--small-size);color:var(--mute);text-align:center}
+.cite{
+  font-size:clamp(.6rem,.78vw,.74rem);color:var(--mute);line-height:1.5;
+  border-top:1px solid var(--line);padding-top:.6em;margin-top:auto;
+}
+.cite i{color:var(--dim)}
+.cite.small{margin-top:var(--element-gap);padding-top:.5em;font-size:clamp(.55rem,.72vw,.68rem)}
+
+/* 版面 */
+.two{display:grid;gap:clamp(.8rem,2.4vw,2.4rem);align-items:center;min-height:0}
+.two-6-5{grid-template-columns:6fr 5fr}
+.two-7-4{grid-template-columns:7fr 4fr}
+.two-5-6{grid-template-columns:5fr 6fr}
+.two-8-3{grid-template-columns:8fr 3fr}
+.two>div{min-width:0;min-height:0}
+.rcol{display:flex;align-items:center;justify-content:center;min-height:0}
+
+.fig{display:flex;align-items:center;justify-content:center;width:100%;min-height:0}
+.fig img{
+  max-width:100%;max-height:min(58vh,520px);object-fit:contain;
+  border-radius:10px;border:1px solid var(--line);
+  background:var(--bg2);box-shadow:0 18px 48px rgba(0,0,0,.45);
+}
+.fig.big img{max-height:min(66vh,620px)}
+.fig.wide img{max-height:min(26vh,220px)}
+
+.bullets{list-style:none;display:flex;flex-direction:column;gap:clamp(.4rem,1.1vh,.95rem);margin-top:var(--element-gap)}
+.bullets.tight{gap:clamp(.3rem,.8vh,.6rem)}
+.bullets li{
+  position:relative;padding-left:1.3em;color:var(--dim);line-height:1.5;
+}
+.bullets li::before{
+  content:"";position:absolute;left:0;top:.62em;width:.5em;height:.5em;
+  background:var(--cy);transform:rotate(45deg);
+}
+.callout{
+  border-left:3px solid var(--cy);background:rgba(56,225,214,.07);
+  padding:clamp(.5rem,1.2vh,.9rem) clamp(.7rem,1.4vw,1.1rem);
+  border-radius:0 8px 8px 0;color:var(--dim);
+  font-size:clamp(.74rem,1.05vw,.94rem);line-height:1.5;margin-top:var(--element-gap);
+}
+.callout.danger{border-left-color:var(--rd);background:rgba(255,92,110,.08)}
+.punch{
+  font-size:clamp(.95rem,1.75vw,1.45rem);line-height:1.45;font-weight:600;
+  color:#fff;margin-top:var(--content-gap);
+  padding-left:clamp(.6rem,1.2vw,1rem);border-left:4px solid var(--am);
+}
+.code{
+  font-family:var(--mono);font-size:clamp(.62rem,.9vw,.84rem);
+  background:#050810;border:1px solid var(--line);border-radius:7px;
+  padding:.55em .8em;color:var(--cy);margin-top:var(--element-gap);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+/* 封面 */
+.bg-art{position:absolute;inset:0;overflow:hidden;z-index:0}
+.bgimg{position:absolute;inset:0;display:block}
+.bgimg img{width:100%;height:100%;object-fit:cover;opacity:1}
+.bg-art::after{
+  content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(7,11,20,.99) 0%,rgba(7,11,20,.97) 28%,rgba(7,11,20,.8) 45%,rgba(7,11,20,.12) 76%,rgba(7,11,20,0) 100%);
+}
+.tcard{position:relative;z-index:2;padding:var(--slide-padding);max-width:min(92vw,1150px);margin:auto 0}
+.tmeta{font-size:var(--small-size);letter-spacing:.24em;color:var(--cy);text-transform:uppercase;margin-bottom:1.2em}
+.tsub{font-size:clamp(.95rem,2vw,1.6rem);color:var(--dim);margin-top:.5em;font-weight:400}
+.trule{width:clamp(48px,7vw,96px);height:3px;background:var(--am);margin:clamp(1rem,3vh,2rem) 0}
+.tspeaker{font-size:clamp(1rem,1.8vw,1.4rem);font-weight:700;color:#fff}
+.trole{font-size:var(--small-size);color:var(--mute);margin-top:.35em;line-height:1.6}
+
+/* 段落轉場 */
+.slide.section{background:linear-gradient(135deg,#080d18 0%,#0d1626 100%)}
+.sect{margin:auto;text-align:left;max-width:min(88vw,980px);padding:var(--slide-padding)}
+.snum{
+  font-family:var(--mono);font-size:clamp(3rem,11vw,9rem);line-height:.9;
+  color:transparent;-webkit-text-stroke:1.5px var(--cy);opacity:.55;font-weight:700;
+}
+.stitle{font-size:clamp(1.5rem,4.2vw,3.2rem);margin-top:.15em}
+.ssub{color:var(--mute);font-size:clamp(.8rem,1.3vw,1.1rem);margin-top:.7em}
+
+/* 自我介紹 */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.7rem,2vw,1.8rem);margin-top:var(--content-gap)}
+.pcol h3{color:var(--cy);font-size:var(--small-size);letter-spacing:.14em;text-transform:uppercase;
+  padding-bottom:.45em;border-bottom:1px solid var(--line);margin-bottom:.7em}
+.pcol ul{list-style:none;display:flex;flex-direction:column;gap:.45em}
+.pcol li{color:var(--dim);font-size:clamp(.7rem,.98vw,.9rem);line-height:1.45}
+
+/* 三個問題 */
+.qlist{display:flex;flex-direction:column;gap:clamp(.6rem,2.2vh,1.6rem);margin-top:var(--content-gap)}
+.qrow{display:flex;gap:clamp(.8rem,2vw,1.6rem);align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:clamp(.5rem,1.6vh,1.1rem)}
+.qnum{font-family:var(--mono);font-size:clamp(1.1rem,2.6vw,2.1rem);color:var(--am);font-weight:700;flex:none}
+.qtxt{font-size:clamp(.9rem,1.7vw,1.4rem);color:var(--ink);line-height:1.4}
+
+/* 數字 */
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.6vw,1.4rem);margin-top:var(--content-gap)}
+.stat{border-top:2px solid var(--cy);padding-top:.7em}
+.slabel{font-size:var(--small-size);color:var(--mute);letter-spacing:.1em}
+.sval{font-family:var(--mono);font-size:clamp(1.7rem,4.6vw,3.6rem);line-height:1;color:#fff;font-weight:700;margin:.12em 0}
+.sunit{font-size:var(--small-size);color:var(--dim)}
+
+/* 圖列 */
+.irow{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.5rem,1.4vw,1.1rem);margin-top:var(--content-gap);min-height:0}
+.ifit{min-height:0;display:flex}
+.ifit img{width:100%;height:100%;max-height:min(52vh,440px);object-fit:cover;border-radius:9px;border:1px solid var(--line)}
+
+/* 流程 */
+.flow{display:flex;align-items:stretch;gap:clamp(.25rem,.7vw,.6rem);margin-top:var(--content-gap);flex-wrap:nowrap}
+.fstep{
+  flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:clamp(.5rem,1.3vh,.9rem) clamp(.35rem,.8vw,.7rem);text-align:center;
+  display:flex;flex-direction:column;gap:.25em;justify-content:center;
+}
+.fn{font-family:var(--mono);font-size:var(--small-size);color:var(--cy)}
+.fmain{font-size:clamp(.7rem,1vw,.92rem);font-weight:600;color:#fff;line-height:1.25}
+.fsub{font-size:clamp(.58rem,.78vw,.72rem);color:var(--mute);line-height:1.3}
+.farrow{display:flex;align-items:center;color:var(--cy);opacity:.6;font-size:clamp(.8rem,1.3vw,1.2rem);flex:none}
+
+/* 引言頁 */
+.qwrap{margin:auto;max-width:min(88vw,1000px)}
+.bigq{
+  font-size:clamp(1.05rem,2.5vw,2.05rem);line-height:1.4;font-weight:700;color:#fff;
+  border-left:5px solid var(--am);padding-left:clamp(.8rem,1.8vw,1.5rem);
+  margin-top:clamp(1rem,3vh,2rem);
+}
+
+/* 時間軸 */
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.6vw,1.4rem);margin-top:var(--content-gap)}
+.phase{border-top:3px solid var(--line);padding-top:.9em;position:relative}
+.phase.p0{border-top-color:#3c4f6b}
+.phase.p1{border-top-color:var(--bl)}
+.phase.p2{border-top-color:var(--cy)}
+.pera{font-family:var(--mono);font-size:var(--small-size);color:var(--mute)}
+.pname{font-size:clamp(.95rem,1.9vw,1.5rem);font-weight:800;color:#fff;margin:.15em 0}
+.ptag{font-size:clamp(.72rem,1vw,.92rem);color:var(--am);margin-bottom:.5em}
+.pdesc{font-size:clamp(.68rem,.92vw,.85rem);color:var(--dim);line-height:1.5}
+
+/* 四象限 */
+.quad{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(.5rem,1.4vw,1.1rem);margin-top:var(--content-gap);min-height:0}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:clamp(.6rem,1.5vh,1.1rem) clamp(.7rem,1.3vw,1.1rem);position:relative;min-height:0}
+.qcard .qn{position:absolute;top:.5em;right:.7em;font-family:var(--mono);color:var(--cy);opacity:.45;
+  font-size:clamp(1rem,2vw,1.6rem)}
+.qcard h3{color:#fff}
+.qtool{font-family:var(--mono);font-size:clamp(.62rem,.85vw,.78rem);color:var(--am);margin:.25em 0 .45em}
+.qcard p{font-size:clamp(.66rem,.9vw,.84rem);color:var(--dim);line-height:1.45}
+
+/* 管線 */
+.pipe{display:flex;flex-direction:column;gap:clamp(.9rem,3vh,2rem);margin-top:var(--content-gap)}
+.plabel{font-size:var(--small-size);color:var(--cy);letter-spacing:.12em;margin-bottom:.5em}
+.pchain{display:flex;align-items:center;gap:clamp(.3rem,1vw,.8rem);flex-wrap:wrap}
+.pnode{
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:clamp(.35rem,1vh,.6rem) clamp(.7rem,1.5vw,1.2rem);
+  font-size:clamp(.72rem,1.1vw,1rem);font-weight:600;color:var(--ink);white-space:nowrap;
+}
+.pnode.me{background:var(--am);color:#0b0f18;border-color:var(--am)}
+.parrow{color:var(--cy);font-size:clamp(.8rem,1.3vw,1.15rem)}
+
+/* Agent 卡 */
+.agrid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(.5rem,1.3vw,1rem);margin-top:var(--content-gap)}
+.acard{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--cy);
+  border-radius:0 9px 9px 0;padding:clamp(.55rem,1.4vh,.95rem) clamp(.7rem,1.3vw,1.05rem)}
+.aname{font-family:var(--mono);font-size:clamp(.78rem,1.15vw,1.02rem);color:var(--cy);font-weight:700}
+.arole{font-size:clamp(.72rem,1vw,.9rem);color:#fff;font-weight:700;margin:.15em 0 .3em}
+.acard p{font-size:clamp(.66rem,.88vw,.82rem);color:var(--dim);line-height:1.45}
+code{font-family:var(--mono);background:rgba(56,225,214,.1);color:var(--cy);
+  padding:.06em .35em;border-radius:3px;font-size:.92em}
+
+/* 影片卡 */
+.vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(.5rem,1.3vw,1rem);min-height:0}
+.vcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  padding:clamp(.55rem,1.4vh,1rem) clamp(.7rem,1.3vw,1.05rem);position:relative}
+.vn{font-family:var(--mono);color:var(--am);font-size:var(--small-size);letter-spacing:.1em}
+.vcard h3{color:#fff;font-size:clamp(.8rem,1.15vw,1.02rem);margin:.15em 0 .35em}
+.vwhat{font-size:clamp(.64rem,.86vw,.8rem);color:var(--dim);line-height:1.4}
+.vwhy{font-size:clamp(.64rem,.86vw,.8rem);color:var(--cy);margin-top:.4em;line-height:1.4}
+.qrbox{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6em}
+.qrbox img{width:min(100%,clamp(110px,15vw,210px));image-rendering:pixelated;
+  background:#fff;padding:8px;border-radius:9px}
+.qrbox.big img{width:min(100%,clamp(140px,19vw,270px))}
+.qrcap{font-size:clamp(.56rem,.75vw,.7rem);color:var(--mute);word-break:break-all;text-align:center;max-width:100%}
+
+/* 失敗數據 */
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.6vw,1.3rem);margin-top:var(--content-gap)}
+.mcell{border-top:2px solid var(--rd);padding-top:.6em}
+.mv{font-family:var(--mono);font-size:clamp(1.3rem,3.4vw,2.6rem);color:#fff;font-weight:700;line-height:1}
+.mu{font-size:var(--small-size);color:var(--dim)}
+.ml{font-size:var(--small-size);color:var(--mute);margin-top:.25em}
+
+.tbl{width:100%;border-collapse:collapse;font-size:clamp(.66rem,.9vw,.86rem);margin-top:var(--element-gap)}
+.tbl th{text-align:left;color:var(--cy);font-size:var(--small-size);letter-spacing:.1em;
+  border-bottom:1px solid var(--line);padding:.45em .5em;font-weight:600}
+.tbl td{padding:.42em .5em;border-bottom:1px solid rgba(30,44,68,.55);color:var(--dim)}
+.tbl td.ok{color:var(--cy);font-weight:600}
+.tbl td.skip{color:var(--rd)}
+
+/* 藍圖堆疊 */
+.stack{display:flex;flex-direction:column;gap:clamp(.35rem,1vh,.7rem);margin-top:var(--content-gap)}
+.layer{display:grid;grid-template-columns:clamp(70px,11vw,130px) clamp(90px,14vw,190px) 1fr;
+  gap:clamp(.5rem,1.4vw,1.2rem);align-items:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:clamp(.45rem,1.2vh,.85rem) clamp(.7rem,1.3vw,1.1rem)}
+.layer.l0{border-left:3px solid var(--bl)}
+.layer.l1{border-left:3px solid var(--cy)}
+.layer.l2{border-left:3px solid var(--am)}
+.layer.l3{border-left:3px solid #fff}
+.lname{font-size:clamp(.84rem,1.35vw,1.15rem);font-weight:800;color:#fff}
+.ltag{font-size:clamp(.66rem,.9vw,.84rem);color:var(--am)}
+.layer p{font-size:clamp(.64rem,.88vw,.82rem);color:var(--dim);line-height:1.45}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.6rem,1.6vw,1.3rem);margin-top:var(--content-gap)}
+.c3{border-top:3px solid var(--cy);padding-top:.8em}
+.c3 h3{color:#fff;margin-bottom:.4em}
+.c3 p{font-size:clamp(.7rem,.95vw,.88rem);color:var(--dim);line-height:1.5}
+
+/* 沒變／變了 */
+.vtwo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,2vw,1.6rem);margin-top:var(--content-gap)}
+.vbox{border:1px solid var(--line);border-radius:10px;padding:clamp(.7rem,1.8vh,1.2rem) clamp(.8rem,1.5vw,1.3rem)}
+.vbox h3{font-size:var(--small-size);letter-spacing:.16em;text-transform:uppercase;margin-bottom:.7em}
+.vbox ul{list-style:none;display:flex;flex-direction:column;gap:.45em}
+.vbox li{font-size:clamp(.76rem,1.1vw,.98rem);color:var(--ink)}
+.unchanged{border-color:#3c4f6b}
+.unchanged h3{color:var(--mute)}
+.unchanged li{color:var(--dim)}
+.changed{border-color:var(--cy);background:rgba(56,225,214,.05)}
+.changed h3{color:var(--cy)}
+
+/* 建議 */
+.advlist{display:flex;flex-direction:column;gap:clamp(.7rem,2.4vh,1.7rem);margin-top:var(--content-gap)}
+.adv{display:grid;grid-template-columns:clamp(30px,4vw,52px) 1fr;gap:clamp(.7rem,1.6vw,1.3rem);align-items:start}
+.an{font-family:var(--mono);font-size:clamp(1.1rem,2.6vw,2.1rem);color:transparent;
+  -webkit-text-stroke:1.2px var(--am);font-weight:700;line-height:1}
+.adv h3{font-size:clamp(.9rem,1.7vw,1.35rem);color:#fff;margin-bottom:.3em}
+.adv p{font-size:clamp(.7rem,.98vw,.9rem);color:var(--dim);line-height:1.55}
+
+/* 結尾 */
+.closewrap{margin:auto;width:100%}
+.closeh{font-size:clamp(1.6rem,4.4vw,3.4rem)}
+.closes{font-family:var(--mono);color:var(--cy);font-size:clamp(1rem,2.2vw,1.8rem);
+  letter-spacing:.3em;margin-top:.3em}
+.reslist{display:flex;flex-direction:column;gap:.5em;margin-top:clamp(1rem,3vh,2rem)}
+.res{display:grid;grid-template-columns:clamp(88px,12vw,150px) 1fr;gap:.8em;align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:.45em}
+.rk{font-size:var(--small-size);color:var(--mute)}
+.rv{font-family:var(--mono);font-size:clamp(.62rem,.88vw,.8rem);color:var(--cy);word-break:break-all}
+.contact{font-size:var(--small-size);color:var(--mute);margin-top:clamp(.8rem,2.4vh,1.6rem)}
+
+/* 進場動畫 */
+.slide-content>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.slide.on .slide-content>*{opacity:1;transform:none}
+.slide.on .slide-content>*:nth-child(2){transition-delay:.08s}
+.slide.on .slide-content>*:nth-child(3){transition-delay:.16s}
+.slide.on .slide-content>*:nth-child(4){transition-delay:.24s}
+
+/* 控制列 */
+.hud{position:fixed;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.06);z-index:60}
+.hudbar{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--am));transition:width .3s ease}
+.ctl{position:fixed;right:14px;bottom:14px;display:flex;gap:6px;z-index:60;align-items:center}
+.ctl button{
+  background:rgba(17,26,44,.9);border:1px solid var(--line);color:var(--dim);
+  font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:6px;cursor:pointer;
+  backdrop-filter:blur(8px);
+}
+.ctl button:hover{color:var(--cy);border-color:var(--cy)}
+.ctl button.live{color:var(--am);border-color:var(--am)}
+#clock{font-family:var(--mono);font-size:12px;color:var(--dim);
+  background:rgba(17,26,44,.9);border:1px solid var(--line);padding:5px 9px;border-radius:6px}
+#clock.over{color:var(--rd);border-color:var(--rd)}
+
+/* 講者備忘 */
+#notes{
+  position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;z-index:70;
+  background:rgba(5,8,16,.97);border-top:2px solid var(--am);
+  padding:14px 18px 22px;display:none;backdrop-filter:blur(10px);
+}
+#notes.show{display:block}
+#notes h4{font-size:11px;letter-spacing:.2em;color:var(--am);text-transform:uppercase;margin-bottom:8px}
+#notes pre{font-family:var(--cjk);white-space:pre-wrap;font-size:14px;line-height:1.7;color:var(--ink)}
+.hint{position:fixed;left:14px;bottom:14px;font-family:var(--mono);font-size:10px;color:var(--mute);z-index:60}
+
+/* 總覽 */
+#ov{position:fixed;inset:0;background:rgba(5,8,16,.97);z-index:80;display:none;
+  overflow:auto;padding:24px;backdrop-filter:blur(6px)}
+#ov.show{display:block}
+.ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.ovc{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;
+  cursor:pointer;font-size:12px}
+.ovc:hover{border-color:var(--cy)}
+.ovc .on_{font-family:var(--mono);font-size:10px;color:var(--cy)}
+.ovc .ot{color:#fff;margin-top:3px;line-height:1.3;font-weight:600}
+.ovc .op{font-size:10px;color:var(--mute);margin-top:4px}
+.ovc.ess{border-left:3px solid var(--am)}
+.ovc.opt{opacity:.55}
+
+@media (max-height:760px){
+  :root{--slide-padding:clamp(.8rem,2.6vw,2rem);--content-gap:clamp(.4rem,1.1vh,.9rem)}
+  .fig img{max-height:min(50vh,400px)}
+}
+@media (max-height:620px){
+  :root{--slide-padding:clamp(.6rem,2vw,1.3rem);--title-size:clamp(1.2rem,3.8vw,2.1rem);
+        --h2-size:clamp(1rem,2.4vw,1.5rem);--body-size:clamp(.7rem,1vw,.86rem)}
+  .hint,.pgrid .pcol li:nth-child(n+4){display:none}
+  .fig img{max-height:min(42vh,320px)}
+}
+@media (max-width:820px){
+  .two,.pgrid,.quad,.agrid,.vgrid,.tl,.statrow,.irow,.grid3,.vtwo{grid-template-columns:1fr}
+  .flow{flex-wrap:wrap}
+  .farrow{display:none}
+  .layer{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important}
+  html{scroll-behavior:auto}
+  .slide-content>*{opacity:1;transform:none}
+}
+@media print{
+  html{scroll-snap-type:none}
+  .slide{page-break-after:always;height:100vh}
+  .ctl,.hud,#notes,.hint,#ov{display:none!important}
+}
+</style>
+</head>
+<body>
+<main>
+<section class="slide title" id="s01"><div class="slide-content">
+<div class="bg-art"><div class="bgimg"><img src="assets/cover.svg" alt="" loading="lazy"></div></div>
+<div class="tcard">
+  <div class="tmeta">國立陽明交通大學 太空研究所　·　2026.10.01</div>
+  <h1>AI Agent 賦能</h1>
+  <p class="tsub">從個人研究軌跡，看見智慧化地震測報新藍圖</p>
+  <div class="trule"></div>
+  <p class="tspeaker">陳達毅</p>
+  <p class="trole">中央氣象署地震測報中心 測報技術科 科長<br>臺北市立大學地球環境暨生物資源學系 兼任助理教授</p>
+</div></div><div class="pageno">01 / 52</div></section>
+<section class="slide hook" id="s02"><div class="tag">開場 <b>★</b></div><div class="slide-content"><div class="kicker">共同記憶</div><h2>我們其實見過面</h2>
+<div class="two two-6-5">
+  <div><p class="lead">2022/1/15，東加 Hunga Tonga 火山噴發。</p><p class='body'>蘭姆波（Lamb wave）繞行地球，臺灣的<b>地震儀</b>、<b>氣壓計</b>、<b>GNSS 電離層 TEC</b>、<b>地磁儀</b> 在同一場事件中同時記錄到訊號。</p><p class="punch">固體地球、大氣、電離層是同一個耦合系統 ——<br>你們從上往下看，我從下往上看。</p></div>
+  <div>
+<svg class="dia" viewBox="0 0 420 330" role="img" aria-label="多重感測器觀測示意">
+  <defs>
+    <linearGradient id="gs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38e1d6" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#38e1d6" stop-opacity=".1"/>
+    </linearGradient>
+  </defs>
+  <g font-size="12" fill="#8fa3bd" font-family="inherit">
+    <line x1="18" y1="58"  x2="402" y2="58"  stroke="#1e2c44"/>
+    <line x1="18" y1="132" x2="402" y2="132" stroke="#1e2c44"/>
+    <line x1="18" y1="206" x2="402" y2="206" stroke="#1e2c44"/>
+    <line x1="18" y1="280" x2="402" y2="280" stroke="#1e2c44"/>
+    <text x="18" y="46">電離層 TEC（GNSS）</text>
+    <text x="18" y="120">氣壓計（蘭姆波）</text>
+    <text x="18" y="194">地震儀</text>
+    <text x="18" y="268">地磁儀</text>
+    <path d="M18 58 H150 q10 0 14-14 t14 28 t14-28 t14 22 t14-16 t14 8 H402"
+          fill="none" stroke="#38e1d6" stroke-width="1.6"/>
+    <path d="M18 132 H170 q12 0 16-26 t18 44 t16-30 t14 16 H402"
+          fill="none" stroke="#ffb340" stroke-width="1.6"/>
+    <path d="M18 206 H120 q6 0 9-30 t9 56 t8-40 t8 26 t8-16 t8 10 t8-6 H402"
+          fill="none" stroke="#e8eef7" stroke-width="1.6"/>
+    <path d="M18 280 H200 q8 0 11-12 t11 22 t10-16 H402"
+          fill="none" stroke="#7aa2f7" stroke-width="1.6"/>
+    <line x1="150" y1="20" x2="150" y2="310" stroke="#ff5c6e" stroke-dasharray="4 4" stroke-width="1"/>
+    <text x="156" y="318" fill="#ff5c6e">2022/1/15 噴發</text>
+  </g>
+</svg></div>
+</div>
+<div class="cite">Huang, Ku, Lin, Hsu, Liu, Liu, Chen, <b>Chen D.-Y.</b>, Huang &amp; Jiang (2024). Significant Earth's responses of the 2022 Tonga eruption across Taiwan from multiple sensor observations. <i>Frontiers in Earth Science</i>, 12, 1285173.</div></div><div class="pageno">02 / 52</div></section>
+<section class="slide profile" id="s03"><div class="tag">開場</div><div class="slide-content"><div class="kicker">自我介紹</div><h2>陳達毅</h2>
+<div class="pgrid"><div class="pcol"><h3>學歷</h3><ul><li>東吳大學 物理學系 學士（1998–2003）</li><li>臺灣海洋大學 應用地球科學 碩士（2003–2005）</li><li>臺灣大學 地質科學 博士（2010–2015）</li><li>博士論文就是 Earthworm 地震預警平台</li></ul></div><div class="pcol"><h3>經歷</h3><ul><li>中央氣象署地震測報中心 2006 至今</li><li>技佐 → 技士 → 研究發展課課長</li><li>→ 測報技術科科長（2023/09 迄今）</li><li>地震預警系統研發、建置與實務作業</li></ul></div><div class="pcol"><h3>教學與服務</h3><ul><li>臺北市立大學 兼任助理教授，2018 起連續 8 年</li><li>地球物理通論、地震學、專題研究</li><li>Journal of Seismology, Associate Editor</li><li>中華民國地球物理學會 理事</li></ul></div></div>
+<p class="punch">同時站在<b>作業第一線</b>與<b>教學現場</b> —— 這是今天整場的視角來源。</p></div><div class="pageno">03 / 52</div></section>
+<section class="slide questions" id="s04"><div class="tag">開場</div><div class="slide-content"><div class="kicker">今天要回答的</div><h2>三個問題</h2><div class="qlist"><div class="qrow"><span class="qnum">01</span><span class="qtxt">一個 24 小時不能停的國家級即時系統，AI 能插手到什麼程度？</span></div><div class="qrow"><span class="qnum">02</span><span class="qtxt">一個人的研究產能，這三年到底被 AI 改變了多少？</span></div><div class="qrow"><span class="qnum">03</span><span class="qtxt">下一代的地震測報，長什麼樣子？</span></div></div>
+<p class="foot">第 ② 題我會給具體數字，包含<b>失敗的數字</b>。</p></div><div class="pageno">04 / 52</div></section>
+<section class="slide section" id="s05"><div class="tag">工作現場</div><div class="slide-content"><div class="sect">
+  <div class="snum">01</div>
+  <h2 class="stitle">地震測報的工作現場</h2>
+  <p class="ssub">一場永遠不會結束的競速</p>
+</div></div><div class="pageno">05 / 52</div></section>
+<section class="slide split" id="s06"><div class="tag">工作現場</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">本質</div><h2>競速</h2><ul class="bullets"><li>1999.9.21 集集 M7.3 → 2024.4.3 花蓮 M7.2，<b>25 年間我們在跟同一件事賽跑</b></li><li>P 波先到，S 波才是破壞主力</li><li>兩者之間的<b>數秒到數十秒</b>，是唯一能提前示警的窗口</li><li>這個窗口的長度由物理決定，我們能爭取的只有<b>處理時間</b></li></ul></div><div class="rcol"><div class="fig"><img src="assets/pswave.svg" alt="" loading="lazy"></div></div></div></div><div class="pageno">06 / 52</div></section>
+<section class="slide split" id="s07"><div class="tag">工作現場</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">地體構造</div><h2>臺灣的地震環境</h2><ul class="bullets"><li>菲律賓海板塊與歐亞板塊每年以 <b>7–8 cm</b> 速度聚合</li><li>東部海域：菲律賓海板塊向北隱沒到歐亞板塊之下</li><li>南部海域：歐亞板塊向東隱沒到菲律賓海板塊之下</li><li>持續擠壓碰撞 → 臺灣地震頻繁</li></ul></div><div class="rcol"><div class="fig"><img src="assets/A_s05_356.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">07 / 52</div></section>
+<section class="slide stats" id="s08"><div class="tag">工作現場 ◇</div><div class="slide-content"><div class="kicker">頻率</div><h2>這是一個常態，不是意外</h2>
+<div class="two two-7-4">
+  <div><div class="statrow"><div class="stat"><div class="slabel">每天</div><div class="sval">100</div><div class="sunit">個地震</div></div><div class="stat"><div class="slabel">每年</div><div class="sval">100</div><div class="sunit">個顯著有感地震</div></div><div class="stat"><div class="slabel">每 30–40 年</div><div class="sval">1</div><div class="sunit">個大規模災害性地震</div></div></div><p class="foot">1900 年以來，臺灣共發生 <b>7 次</b> 罹難百人以上的災害地震。</p></div>
+  <div class="rcol"><div class="fig"><img src="assets/A_s06_364.jpg" alt="" loading="lazy"></div></div>
+</div></div><div class="pageno">08 / 52</div></section>
+<section class="slide imagefull" id="s09"><div class="tag">工作現場 ◇</div><div class="slide-content"><div class="kicker">代價</div><h2>過去十年</h2>
+<div class="two two-5-6">
+  <div><ul class="bullets tight"><li>2016/2/6 美濃 M6.6（7 級）— 621 人傷亡、749 戶房屋損失</li><li>2018/2/6 花蓮 M6.2（7 級）— 308 人傷亡、195 戶</li><li>2022/9/18 池上 M6.8（6 強）</li><li>2024/4/3 花蓮 M7.1（6 強）— 1069 人傷亡、207 戶</li><li>2025/1/21 大埔 M6.4（6 弱）</li></ul></div>
+  <div class="rcol"><div class="fig big"><img src="assets/A_s04_336.jpg" alt="" loading="lazy"></div></div>
+</div></div><div class="pageno">09 / 52</div></section>
+<section class="slide images" id="s10"><div class="tag">工作現場</div><div class="slide-content"><div class="kicker">工作環境</div><h2>60 人，24 小時，全年無休</h2><div class="irow"><div class="ifit"><img src="assets/A_s10_416.jpg" alt="" loading="lazy"></div><div class="ifit"><img src="assets/A_s11_423.jpg" alt="" loading="lazy"></div><div class="ifit"><img src="assets/A_s12_430.jpg" alt="" loading="lazy"></div></div><p class="cap">地震發生時，值班同仁必須在數十秒內掌握全局。</p></div><div class="pageno">10 / 52</div></section>
+<section class="slide split" id="s11"><div class="tag">工作現場</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">資料量</div><h2>即時觀測網：巨量資料</h2><ul class="bullets"><li>約 <b>3000 個</b> 觀測頻道</li><li>每個頻道 <b>100 Hz</b> 取樣率</li><li>約 <b>30 萬筆/秒</b> 持續寫入，永不中斷</li></ul><div class="callout ">給太空所的類比：這是一條<b>地面段（ground segment）的即時遙測下行鏈路</b>，只是它 24 小時都在下行，而且不能排程。</div></div><div class="rcol"><div class="fig"><img src="assets/A_s13_435.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">11 / 52</div></section>
+<section class="slide split" id="s12"><div class="tag">工作現場</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">系統架構</div><h2>Earthworm：模組化即時系統</h2><ul class="bullets"><li>以<b>共享記憶體 ring</b> 串接：WAVE_RING / PICK_RING / HYPO_RING</li><li>每個模組是<b>獨立行程</b>，壞一個不會拖垮全系統</li><li>可熱插拔、可個別重啟、可獨立測試</li></ul><div class="callout ">這個設計哲學，跟 NASA <b>cFS（core Flight System）的 software bus</b> 是同一套思路 —— 即時系統的可靠性，來自模組之間的<b>解耦</b>。</div><div class="code">docker pull cwadayi/earthworm_ubuntu22.04_eew:v1</div></div><div class="rcol"><div class="fig"><img src="assets/A_s15_450.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">12 / 52</div></section>
+<section class="slide flow" id="s13"><div class="tag">工作現場</div><div class="slide-content"><div class="kicker">演算邏輯</div><h2>預警鏈路：每一步都在跟時間借錢</h2><div class="flow"><div class="fstep"><span class="fn">1</span><span class="fmain">偵測 P 波</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">2</span><span class="fmain">分群</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">3</span><span class="fmain">地震定位</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">4</span><span class="fmain">計算規模</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">5</span><span class="fmain">預估各地震度</span></div></div><div class="fig wide"><img src="assets/A_s16_459.jpg" alt="" loading="lazy"></div><p class="foot">整條鏈路的<b>延遲預算只有幾秒</b>。（Chen et al., 2019）</p></div><div class="pageno">13 / 52</div></section>
+<section class="slide split" id="s13g"><div class="tag">工作現場 ◇</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">可觀測性</div><h2>我們早就在用 dashboard 看系統</h2><ul class="bullets"><li>Grafana 即時監控：觀測站<b>資料延遲</b>、海底地震儀水壓計、預警系統<b>發布情形</b>、特定測站波形</li><li>一個永遠在跑的系統，需要的不只是演算法，是<b>看得見它在做什麼</b></li><li>這條線後面會接到 Agent —— 先有可觀測性，才談得上自動處置</li></ul><div class="callout ">對做衛星的人來說這很熟悉：<b>telemetry 看不到的東西，就管不了</b>。</div></div><div class="rcol"><div class="fig"><img src="assets/A_s23_528.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">14 / 52</div></section>
+<section class="slide section" id="n01"><div class="tag">不只是地震</div><div class="slide-content"><div class="sect">
+  <div class="snum">02</div>
+  <h2 class="stitle">地震儀記錄的不只是地震</h2>
+  <p class="ssub">所有讓地面震動的東西，以及空氣中的壓力變化</p>
+</div></div><div class="pageno">15 / 52</div></section>
+<section class="slide bullets" id="n02"><div class="tag">不只是地震</div><div class="slide-content"><div class="kicker">先修正一個認知</div><h2>它不是「地震偵測器」</h2><ul class="bullets"><li>地震儀是一個<b>對地面運動極度敏感的感測器</b>。它不會挑訊號 —— 任何讓地面震動的東西都會進去</li><li>固體地球：地震、火山、冰川、海浪（微震）</li><li>地表過程：土石流、山崩、洪水、颱風</li><li>人為：爆炸、施工、火車、重型機具，甚至演唱會</li><li><b>還有一類最容易被忽略 —— 空氣中的聲波與壓力變化，會耦合到地面，一樣被記錄下來</b></li></ul><div class="callout ">所以臺灣的地震網，本質上是一個<b>全島、全天候、100 Hz 的「地面＋大氣」震動觀測網</b>。它一直在錄，只是我們平常只看地震那一段。</div><p class="punch">接下來三個案例，記錄到的都<b>不是地震</b>。</p></div><div class="pageno">16 / 52</div></section>
+<section class="slide split" id="n03"><div class="tag">不只是地震 <b>★</b></div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">案例一．爆炸</div><h2>同一批儀器，同時看到兩種波</h2><ul class="bullets"><li>2014/7/31 <b>高雄氣爆</b>，23:55（UTC 15:55）</li><li>把各測站依<b>震央距離</b>排好、做 2–8 Hz 濾波，記錄剖面上出現<b>兩條斜率完全不同的走時線</b></li><li><b>4.1 km/s</b>：能量進入地下，以地震波傳播</li><li><b>296 m/s</b>：能量走空氣，是<b>聲波</b> —— 接近音速</li></ul><div class="callout ">同一次爆炸、同一批地震儀，<b>同時記錄到地下的震波與空氣中的聲波</b>。這張圖就是「地震儀不只記錄地震」最乾淨的證據。</div></div><div class="rcol"><div class="fig"><img src="assets/exp_section.jpg" alt="" loading="lazy"></div></div></div><div class="cite small">分析：曾柏凱〈從地震儀的視角看爆炸事件〉</div></div><div class="pageno">17 / 52</div></section>
+<section class="slide split" id="n04"><div class="tag">不只是地震 ◇</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">案例一．續</div><h2>反直覺：慢的訊號，定位反而更準</h2><ul class="bullets"><li>2026/8/22 <b>台南安南鎂鋁廢料爆炸</b>，02:46</li><li>用各站到時差反演爆炸位置與時間，反演速度約 <b>345 m/s</b>（聲波）</li><li>反演結果與實際爆炸位置相差 <b>76 ～ 215 公尺</b></li><li>但同樣方法用在高雄氣爆的<b>地下震波</b>（3.5 km/s），誤差是 <b>2.3 公里</b></li></ul><div class="callout ">原因是<b>誤差被速度放大</b>：同樣 0.2 秒的讀時誤差，在 3.5 km/s 的地震波上是 700 公尺，在 300 m/s 的聲波上只有 60 公尺。<b>慢訊號把時間誤差壓縮成空間精度。</b></div></div><div class="rcol"><div class="fig"><img src="assets/exp_tainan.jpg" alt="" loading="lazy"></div></div></div><div class="cite small">分析：曾柏凱〈從地震儀的視角看爆炸事件〉</div></div><div class="pageno">18 / 52</div></section>
+<section class="slide split" id="n05"><div class="tag">不只是地震 <b>★</b></div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">案例二．火球</div><h2>用地震網追一顆進入大氣層的物體</h2><ul class="bullets"><li>2025/8/19 23:10 JST，鹿兒島、宮崎一帶廣域目擊<b>火球</b></li><li>火球以 10–30 km/s 穿越大氣，超音速 → 產生<b>音爆（sonic boom）</b></li><li>衝擊波打到地面，被鹿兒島全境與宮崎南部的地震儀記錄下來</li><li>到時反演：震源在<b>鹿兒島東南外海約 80 km</b>；只用最近 5 站反演則往<b>西北偏移約 15 km</b></li></ul><div class="callout ">兩個解不一致，正好說明<b>它在移動</b> —— 火球自東南外海往西北、邊墜落邊持續產生衝擊波。地震網量到的是一條<b>軌跡</b>，不是一個點。</div></div><div class="rcol"><div class="fig"><img src="assets/fb_map.jpg" alt="" loading="lazy"></div></div></div><div class="cite small">分析：山田真澄（京都大學防災研究所）eqh.dpri.kyoto-u.ac.jp/~masumi/eq/fireball2025_08/</div></div><div class="pageno">19 / 52</div></section>
+<section class="slide split" id="n06"><div class="tag">不只是地震 <b>★</b></div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">案例三．沒有人看到光</div><h2>2021 札幌：天是晴的，但沒人看見它</h2><ul class="bullets"><li>2021/4/26 20:00，札幌全市聽到巨響並感到輕微搖晃 —— 沒有火災、沒有爆炸、沒有地震，自衛隊沒有演習，雷達沒有異常飛行器</li><li><b>天空晴朗，但完全沒有發光現象的目擊報告</b></li><li>靠地震資料反演：音爆源在北海道西岸外海約 100 km、<b>高度 50 km</b>，仰角大於 66°，速度高於戰鬥機</li><li>結論：最可能是一顆<b>沒有被任何人看見的火球</b></li></ul><div class="callout ">對太空所而言，這件事的意義很直接：<b>地震網是一個全天候、不受雲層與日照限制的大氣進入體偵測網。</b>光學看不到的時候，它還在錄。</div></div><div class="rcol"><div class="fig"><img src="assets/fb_geom.jpg" alt="" loading="lazy"></div></div></div><div class="cite small">Yamada, M. (2021). Determining the source of the explosive sound heard in Hokkaido, Japan, on April 26, 2021. JGR Solid Earth, 126(12). doi:10.1029/2021JB023076</div></div><div class="pageno">20 / 52</div></section>
+<section class="slide section" id="s14"><div class="tag">難題</div><div class="slide-content"><div class="sect">
+  <div class="snum">03</div>
+  <h2 class="stitle">這份工作真正的難題</h2>
+  <p class="ssub">不是演算法不夠好，是邊界條件永遠比你想像的多</p>
+</div></div><div class="pageno">21 / 52</div></section>
+<section class="slide split" id="s15"><div class="tag">難題 <b>★</b></div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">難題一</div><h2>誤報的代價</h2><ul class="bullets"><li>115/2/23，馬來西亞婆羅洲外海地震 → <b>誤發中小學 EEW</b></li><li>遠震訊號進入了近場演算法的邊界條件</li><li>技術上是一個 corner case，社會上是一次信任損失</li></ul><p class="punch">誤報一次，<b>信任度掉的比技術指標快</b>。</p></div><div class="rcol"><div class="fig"><img src="assets/A_s17_470.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">22 / 52</div></section>
+<section class="slide split" id="s16"><div class="tag">難題</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">難題二</div><h2>強度之外，還有持續時間</h2><ul class="bullets"><li>地震災害必須<b>同時考慮強度與持續時間</b></li><li>2024/4/3 花蓮：第一報與第二報之間的判斷困境</li><li>單一標量預測（只給一個震度數字）本質上不夠</li></ul><p class="punch">我們要預測的其實是一條<b>時間序列</b>，不是一個數字。</p></div><div class="rcol"><div class="fig"><img src="assets/A_s26_543.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">23 / 52</div></section>
+<section class="slide split" id="s17"><div class="tag">難題</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">難題三</div><h2>參數調校是人工的</h2><ul class="bullets"><li>傳統演算法在自動辨識地震波相上，有<b>大量參數要調</b></li><li>調完要重跑歷史事件驗證，一輪下來以天為單位</li><li>準確性到一個程度之後，<b>怎麼調都上不去</b></li></ul><p class="punch">這就是機器學習的切入點 —— 不是因為它時髦，是因為傳統方法撞牆了。</p></div><div class="rcol"><div class="fig"><img src="assets/A_s33_2.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">24 / 52</div></section>
+<section class="slide quote" id="s18"><div class="tag">難題 <b>★</b></div><div class="slide-content"><div class="qwrap"><div class="kicker">難題四</div><h2>地震報告為什麼會慢？</h2><p class='body'>人工檢核不可省：定位、規模、深度、有感範圍，每一項都要有人負責。</p><p class='body'>〈地震報告怎麼慢了？揭開製作地震報告的神祕面紗〉，《科學月刊》625 期</p><blockquote class="bigq">自動化不是為了取代人工檢核，<br>是為了讓人工檢核<b>有時間做該做的判斷</b>。</blockquote></div></div><div class="pageno">25 / 52</div></section>
+<section class="slide section" id="s19"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="sect">
+  <div class="snum">04</div>
+  <h2 class="stitle">我的 AI 工作流程演進</h2>
+  <p class="ssub">2022 → 2026</p>
+</div></div><div class="pageno">26 / 52</div></section>
+<section class="slide timeline" id="s20"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="kicker">三個階段</div><h2>用 2026 年的方式，去思考每一項工作</h2><div class="tl"><div class="phase p0"><div class="pera">2022–2024</div><div class="pname">對話時代</div><div class="ptag">問它、貼上、自己執行</div><p class="pdesc">ChatGPT 登場。寫程式、查指令、翻譯、寫英文信都用「問」的。產出仍需自己手動複製貼上、在本機執行。<b>AI 是助理，人類是手腳。</b></p></div><div class="phase p1"><div class="pera">2024–2025</div><div class="pname">整合介面</div><div class="ptag">Agent 進入 IDE</div><p class="pdesc">Cursor、Windsurf、GitHub Copilot Agent Mode 等 AI 原生編輯器登場。能直接改多檔程式、執行終端機指令、跑測試、部署到雲端。<b>AI 開始接管「執行」。</b></p></div><div class="phase p2"><div class="pera">2025–2026</div><div class="pname">自主 Agent</div><div class="ptag">任務交出去，它跑完回報</div><p class="pdesc">模型能力持續提升，Agent 能長時間自主工作、自己除錯、自己驗證。<b>人類回到「問對問題」與「決定要不要相信」。</b></p></div></div></div><div class="pageno">27 / 52</div></section>
+<section class="slide quad" id="s21"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="kicker">現況</div><h2>我現在同時跑四條路線</h2><div class="quad"><div class="qcard"><div class="qn">①</div><h3>本機工作台</h3><div class="qtool">Antigravity IDE / VSCode</div><p>外接訂閱制 LLM：ChatGPT Pro、Claude Pro、Ollama Cloud、OpenCode。直接讀電腦裡的原始觀測資料。</p></div><div class="qcard"><div class="qn">②</div><h3>雲端開發</h3><div class="qtool">Cursor + GitHub + Google Drive</div><p>雲端資料處理與系統開發，結果存 Drive、程式進 GitHub、網頁部署 GitHub Pages、後端上 Hugging Face Space。</p></div><div class="qcard"><div class="qn">③</div><h3>純網頁</h3><div class="qtool">Gemini / ChatGPT / Claude + Colab</div><p>什麼都不用安裝。搭配 Google Colab 執行程式、Google Form / Doc / Apps Script 做系統。</p></div><div class="qcard"><div class="qn">④</div><h3>離開電腦</h3><div class="qtool">Hermes Agent + Telegram + Obsidian</div><p>手機就能發動研究與資料分析，成果自動沉澱到 Obsidian 資料庫。</p></div></div><p class="foot">這四條<b>不是替代關係，是依情境切換</b>。而且全部都有免費額度或開源方案。</p></div><div class="pageno">28 / 52</div></section>
+<section class="slide bullets" id="s22"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="kicker">路線 ①</div><h2>本機工作台：資料不出機器</h2><ul class="bullets"><li>直接分析電腦端的原始觀測資料，<b>不用上傳</b></li><li>適合：敏感資料、大檔案、需要本機環境的分析</li><li>外接訂閱制 LLM，算力在雲端、資料在本地</li></ul><div class="callout ">對作業單位而言，「<b>資料不出機器</b>」不是偏好，是硬需求。</div></div><div class="pageno">29 / 52</div></section>
+<section class="slide split" id="s23"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">路線 ②</div><h2>雲端開發：從開發到上線一條龍</h2><ul class="bullets"><li>Cursor 開發 → GitHub 版控 → Google Drive 存結果</li><li>→ GitHub Pages 發布前端 → Hugging Face Space 跑後端 API</li><li>整條鏈路<b>零維運成本</b></li></ul><div class="code">https://cwbdayi-disaster-fastapi.hf.space/api/reports</div></div><div class="rcol"><div class="fig"><img src="assets/B_s27_7.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">30 / 52</div></section>
+<section class="slide bullets" id="s24"><div class="tag">AI 工作流程 ◇</div><div class="slide-content"><div class="kicker">路線 ③</div><h2>純網頁：零安裝門檻</h2><ul class="bullets"><li>沒有安裝權限的環境也能做完整研究</li><li>Google Colab 出借 GPU，Apps Script 做自動化</li><li><b>教學現場的解方</b>：學生的筆電什麼都不用裝</li></ul><div class="callout ">我教的是地科系學生，不是資工系。如果第一堂課要花兩小時裝環境，這門課就結束了。</div></div><div class="pageno">31 / 52</div></section>
+<section class="slide pipeline" id="s25"><div class="tag">AI 工作流程 <b>★</b></div><div class="slide-content"><div class="kicker">路線 ④</div><h2>Hermes Agent × Telegram × Obsidian</h2><div class="pipe"><div class="prow"><div class="plabel">日常資訊收集與筆記沉澱</div><div class="pchain"><span class="pnode me">我</span><span class="parrow">→</span><span class="pnode">Telegram</span><span class="parrow">→</span><span class="pnode">Hermes Agent</span><span class="parrow">→</span><span class="pnode">Obsidian</span></div></div><div class="prow"><div class="plabel">發動研究、產生成果，再沉澱</div><div class="pchain"><span class="pnode me">我</span><span class="parrow">→</span><span class="pnode">Telegram</span><span class="parrow">→</span><span class="pnode">Hermes Agent</span><span class="parrow">→</span><span class="pnode">Claude CLI / Copilot CLI</span><span class="parrow">→</span><span class="pnode">Obsidian</span></div></div></div><p class="punch">研究的進入門檻，從「<b>坐在電腦前</b>」降到「<b>拿出手機</b>」。</p></div><div class="pageno">32 / 52</div></section>
+<section class="slide agents" id="s26"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="kicker">這不是構想</div><h2>EEW 多代理群：每 30 分鐘真的在跑</h2><div class="agrid"><div class="acard"><div class="aname">my_agent</div><div class="arole">預警總管</div><p>監控 cron、判讀 log、異常推播、日報總結</p></div><div class="acard"><div class="aname">seismo</div><div class="arole">資料工程</div><p><code>.rep</code> 事件結構化轉出、維持 heartbeat loop</p></div><div class="acard"><div class="aname">seismo_agent</div><div class="arole">地震學助教</div><p>容器健康檢查、<code>eew_fault_recovery.sh</code> 自動處置、事件圖表</p></div><div class="acard"><div class="aname">secondary_agent</div><div class="arole">系統整合</div><p>Hermes 鏈路轉發、跨代理任務派遣、彙整每日工作記錄</p></div></div><p class="foot">四個 Agent 有各自的啟動腳本、模型設定與環境隔離，透過 <code>delegate_task</code> 互相呼叫。</p></div><div class="pageno">33 / 52</div></section>
+<section class="slide flow" id="s27"><div class="tag">AI 工作流程</div><div class="slide-content"><div class="kicker">閉環</div><h2>事件進來，報告出去，人只在決策點介入</h2><div class="flow"><div class="fstep"><span class="fn">1</span><span class="fmain">事件觸發</span><span class="fsub">偵測 .rep 更新</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">2</span><span class="fmain">數據派遣</span><span class="fsub">指派跨節點任務</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">3</span><span class="fmain">科學繪圖</span><span class="fsub">生成事件散佈圖</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">4</span><span class="fmain">研究建模</span><span class="fsub">長期趨勢預測</span></div><div class="farrow">→</div><div class="fstep"><span class="fn">5</span><span class="fmain">彙報推播</span><span class="fsub">產出日報</span></div></div><p class="foot">人負責的是：<b>決定要不要相信它，以及下一個問題要問什麼</b>。</p></div><div class="pageno">34 / 52</div></section>
+<section class="slide section" id="s28"><div class="tag">Demo</div><div class="slide-content"><div class="sect">
+  <div class="snum">05</div>
+  <h2 class="stitle">四個可複製的工作流</h2>
+  <p class="ssub">全部錄成影片，你們掃碼帶走</p>
+</div></div><div class="pageno">35 / 52</div></section>
+<section class="slide videos" id="s29"><div class="tag">Demo</div><div class="slide-content"><div class="kicker">教學影片</div><h2>掃碼就能看</h2>
+<div class="two two-8-3">
+  <div class="vgrid"><div class="vcard"><div class="vn">01</div><h3>GitHub 如何協助研究工作</h3><p class="vwhat">建 repo → commit 就是實驗記錄 → GitHub Pages 發布成果網頁</p><p class="vwhy">版本控制不是工程師的工具，是<b>實驗紀錄簿</b></p></div><div class="vcard"><div class="vn">02</div><h3>Cursor × ChatGPT × GitHub × Drive</h3><p class="vwhat">純雲端資料處理與系統開發，結果存 Drive、程式進 GitHub、網頁上 Pages</p><p class="vwhy">沒有自己的伺服器，也能做完整的系統</p></div><div class="vcard"><div class="vn">03</div><h3>Antigravity IDE / VSCode 本機工作台</h3><p class="vwhat">直接分析電腦端檔案，外接訂閱制 LLM 做研究分析與系統開發</p><p class="vwhy">資料不出機器，算力在雲端</p></div><div class="vcard"><div class="vn">04</div><h3>Hermes Agent × Telegram × Obsidian</h3><p class="vwhat">離開電腦也能做研究與收資訊，成果自動沉澱</p><p class="vwhy">研究的門檻降到「拿出手機」</p></div></div>
+  <div class="qrbox"><img src="assets/qr_videos.png" alt="QR"><div class="qrcap">https://oceanicdayi.github.io/1001-nycu-space/videos.html</div></div>
+</div></div><div class="pageno">36 / 52</div></section>
+<section class="slide section" id="s30"><div class="tag">成果</div><div class="slide-content"><div class="sect">
+  <div class="snum">06</div>
+  <h2 class="stitle">成果</h2>
+  <p class="ssub">教學與研究，兩邊都被改寫了</p>
+</div></div><div class="pageno">37 / 52</div></section>
+<section class="slide split" id="s31"><div class="tag">成果</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">教學</div><h2>學生的作業長在網路上</h2><ul class="bullets"><li>地生系同學的作業，直接部署成 <b>Hugging Face Space</b></li><li>交出來的是一個<b>網址</b>，不是一個檔案</li><li>同學之間可以互相打開來看、改、延伸</li></ul><div class="code">huggingface.co/spaces/Sapphirejimmy/seismology_HW10</div></div><div class="rcol"><div class="fig"><img src="assets/A_s70_7.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">38 / 52</div></section>
+<section class="slide bullets" id="s32"><div class="tag">成果 ◇</div><div class="slide-content"><div class="kicker">教學</div><h2>我自己的教法也被改寫了</h2><ul class="bullets"><li>2018 起連續 8 年教地球物理學與地震學</li><li>演化路徑：<b>講授 → 程式作業 → 導入生成式 AI</b></li><li>2026 暑假參與「國小教師加註自然領域專長 28 學分班」授課</li><li>指導學生通過國科會大專學生研究計畫（110 年、113 年各一件）</li></ul><p class="punch">教學內容沒變，<b>學生能走到多遠</b>變了。</p></div><div class="pageno">39 / 52</div></section>
+<section class="slide bullets" id="s33"><div class="tag">成果 ◇</div><div class="slide-content"><div class="kicker">科學教育研究</div><h2>用 AI 觀測「學生怎麼學」</h2><ul class="bullets"><li>投稿 2026 年第 42 屆科學教育國際研討會，兩篇：</li><li>　<b>生成式 AI 輔助地球科學數位敘事之縱向發展</b></li><li>　<b>從電路除錯到量測有效性質疑：地震警報器 STEM 實作歷程</b></li><li>以生成式 AI 進行學生學習評量與<b>學習軌跡分析</b></li></ul><p class="punch">AI 不只是我用的工具，<br>也是我研究「學生怎麼學」的<b>觀測儀器</b>。</p></div><div class="pageno">40 / 52</div></section>
+<section class="slide split" id="s34"><div class="tag">成果</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">研究</div><h2>大型地震模型 LEM：從語音到地震</h2><ul class="bullets"><li>動機：地震台站產生海量資料，但<b>絕大多數未經標註</b></li><li>SeisWav2Vec 2.0：把 Wav2Vec 2.0 的<b>對比學習</b>遷移到地震波形</li><li>架構：特徵編碼器 → <b>12 層 Transformer</b> 上下文編碼器 → 遮罩與量化</li><li>只需<b>少量</b>任務導向資料即可微調到 SOTA</li></ul><div class="callout ">「大量資料、極少標註」—— 這跟<b>遙測資料</b>是一模一樣的困境。自監督學習在你們領域同樣成立。</div></div><div class="rcol"><div class="fig"><img src="assets/A_s43_620.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">41 / 52</div></section>
+<section class="slide split" id="s35"><div class="tag">成果 ◇</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">研究</div><h2>國科會計畫：把它做成可驗證的東西</h2><ul class="bullets"><li><b>115 年</b>｜基於 Wave2vec 2.0 自監督學習之地震動強度與持續時間定量預估研究（主持人，NT$470,000）</li><li><b>112 年</b>｜即時地震波場於地震預警系統中的應用（主持人，NT$483,000）</li><li>近五年共同發表 15 篇期刊論文，多數與機器學習應用於地震預警相關</li></ul></div><div class="rcol"><div class="fig"><img src="assets/A_s45_640.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">42 / 52</div></section>
+<section class="slide split" id="s36"><div class="tag">成果</div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">研究．主線</div><h2>邊緣地震儀：一顆 Raspberry Pi 的完整 EEW</h2><ul class="bullets"><li>硬體：<b>Raspberry Pi 4 (4GB) + RaspberryShake RE81D</b>，成本極低</li><li>Earthworm 8.0 從原始碼在 <b>ARM64 原生編譯</b>（官方沒有 arm64 映像）</li><li>三層警報並行：網路型 EEW（多站，10–30 秒）／即時震度（單站，1–2 秒）／現地型 τc-Pd</li><li>全程由生成式 AI（Claude Code）協同開發：架構設計、程式撰寫除錯、文件簡報</li></ul><div class="callout ">完成度約 <b>90%</b>。這是我前面講的四條工作流，<b>真的產出的東西</b>。</div></div><div class="rcol"><div class="fig"><img src="assets/EW_p05.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">43 / 52</div></section>
+<section class="slide split" id="s37"><div class="tag">成果 <b>★</b></div><div class="slide-content"><div class="two two-6-5"><div><div class="kicker">驗證</div><h2>它真的抓到地震了</h2><ul class="bullets"><li><b>離線回放</b>：2024 花蓮 M7.4 → 撿波 → 4 站定位 → Mpd 6.2 → 產出警報 XML，定位誤差約 11 km，<b>bit-identical 可重現</b></li><li><b>真實案例</b>：2026/7/26 雙溪 M5.6，上游多站資料源（IRIS）<b>剛好斷線</b>，網路型 EEW 完全沒解算</li><li>但單站即時震度層<b>正確量到 4 級</b></li></ul><div class="callout ">這一頁講的是<b>韌性</b>。多站鏈路失效時，本地測站仍能獨立運作 —— 這正是你們做衛星系統時的 <b>graceful degradation</b>。</div><div class="code">https://drewhui.github.io/RASPBERRYSHAKE_CCU/</div></div><div class="rcol"><div class="fig"><img src="assets/EW_p11.jpg" alt="" loading="lazy"></div></div></div></div><div class="pageno">44 / 52</div></section>
+<section class="slide section" id="s38"><div class="tag">新藍圖</div><div class="slide-content"><div class="sect">
+  <div class="snum">07</div>
+  <h2 class="stitle">新藍圖</h2>
+  <p class="ssub">先講兩個失敗，再講未來</p>
+</div></div><div class="pageno">45 / 52</div></section>
+<section class="slide failure" id="s39"><div class="tag">新藍圖 <b>★</b></div><div class="slide-content"><div class="kicker">誠實的一頁</div><h2>AI 也會出錯，而且錯得很安靜</h2><div class="mrow danger"><div class="mcell"><div class="mv">76–325</div><div class="mu">次／天</div><div class="ml">修復前的誤觸發</div></div><div class="mcell"><div class="mv">0–1</div><div class="mu">次／小時</div><div class="ml">修復後</div></div><div class="mcell"><div class="mv">未確定</div><div class="mu"></div><div class="ml">根本原因</div></div></div><ul class="bullets"><li>即時震度告警一週內每天觸發 76–325 次，<b>全部沒有對應的真實地動</b></li><li>排查：交叉比對三個獨立資料源（封存波形、dashboard 週期採樣、pick_ew 獨立量測）→ 三者都顯示現場平靜 → 判定是<b>演算法內部問題</b></li><li>緩解：觸發門檻 2 級 → 3 級，加入高頻雜訊判別器</li><li><b>根本原因至今未確定。診斷 log 已經埋好，等它下次重現。</b></li></ul></div><div class="pageno">46 / 52</div></section>
+<section class="slide failure2" id="s40"><div class="tag">新藍圖 <b>★</b></div><div class="slide-content"><div class="kicker">第二個誠實案例</div><h2>跑了 1640 次，一次都沒真的預測</h2>
+<p class="lead">SSIF 震度預測模型接上系統後，累積 <b>1640 次觸發，100% 被跳過</b>。</p>
+<div class="callout danger">根因：時間點查詢過早，<b>未考慮封包傳輸延遲（約 0.7–1 秒）</b>，而且每秒只有一次查詢機會 —— 這是一個 <b>race condition</b>。</div>
+<div class="two two-6-5">
+  <div><table class="tbl"><thead><tr><th>時間窗口</th><th>預測震度</th><th>信心</th><th>結果</th></tr></thead><tbody><tr><td class="">EW15（15 秒）</td><td class="">5- 級</td><td class="">91.6%</td><td class="ok">成功</td></tr><tr><td class="">EW20（20 秒）</td><td class="">4 級</td><td class="">99.4%</td><td class="ok">成功</td></tr><tr><td class="">EW25（25 秒）</td><td class="">4 級</td><td class="">99.7%</td><td class="ok">成功</td></tr><tr><td class="">EW30（30 秒）</td><td class="">4 級</td><td class="">98.3%</td><td class="ok">成功</td></tr><tr><td class="">EW35（35 秒）</td><td class="">—</td><td class="">—</td><td class="skip">跳過</td></tr></tbody></table>
+       <p class="foot">2026/8/19 人為搖動測試，修復後 <b>5 個窗口成功 4 個</b>（valid_fraction 0.25 → 0.8–0.9）。</p></div>
+  <div class="rcol"></div>
+</div>
+<p class="punch">AI 幫我寫的程式，AI 也幫我找到 bug —— 但要有人<b>問對問題</b>。</p></div><div class="pageno">47 / 52</div></section>
+<section class="slide blueprint" id="s41"><div class="tag">新藍圖</div><div class="slide-content"><div class="kicker">藍圖</div><h2>下一代測報中心</h2><div class="stack"><div class="layer l0"><div class="lname">邊緣</div><div class="ltag">低成本密集站點</div><p>補官方觀測網的覆蓋空白：偏鄉、室內、特定建物。單站即可獨立運作。</p></div><div class="layer l1"><div class="lname">雲端</div><div class="ltag">大型地震模型推論</div><p>自監督預訓練把未標註資料變成資產，集中算力做高階推論與長期建模。</p></div><div class="layer l2"><div class="lname">Agent 群</div><div class="ltag">監控、處置、流水線、日報</div><p>健康檢查、異常自動處置、資料結構化、圖表產出、每日彙報。</p></div><div class="layer l3"><div class="lname">人</div><div class="ltag">決策、判斷、溝通、問對問題</div><p>決定要不要相信、決定要不要發布、決定下一個問題是什麼。</p></div></div></div><div class="pageno">48 / 52</div></section>
+<section class="slide cards3" id="s42"><div class="tag">新藍圖 ◇</div><div class="slide-content"><div class="kicker">藍圖</div><h2>三件正在發生的事</h2><div class="grid3"><div class="c3"><h3>感測器下沉</h3><p>Raspberry Pi 等級的裝置，就能跑完整的 EEW 鏈路。觀測網的密度不再被預算綁死。</p></div><div class="c3"><h3>模型上移</h3><p>自監督預訓練讓未標註資料變成資產。過去被丟掉的訊號，現在是訓練材料。</p></div><div class="c3"><h3>開發加速</h3><p>人機協作的開發模式可以複製。硬體、演算法、模型更新，都能持續用生成式 AI 加速與除錯。</p></div></div></div><div class="pageno">49 / 52</div></section>
+<section class="slide verdict" id="s43"><div class="tag">新藍圖 <b>★</b></div><div class="slide-content"><div class="kicker">回答開場問題 ②</div><h2>AI 到底改變了什麼？</h2>
+<div class="vtwo">
+  <div class="vbox unchanged"><h3>沒變的</h3><ul><li>物理</li><li>資料品質的要求</li><li>驗證標準</li><li>誤報的代價</li></ul></div>
+  <div class="vbox changed"><h3>變了的</h3><ul><li>從想法到可運作原型的時間</li><li>一個人能同時推進的專案數</li><li>除錯的路徑</li></ul></div>
+</div>
+<p class="punch">AI 沒有讓我變聰明。<br>它讓我的<b>每一個念頭都有機會被實作出來驗證</b>。</p></div><div class="pageno">50 / 52</div></section>
+<section class="slide advice" id="s44"><div class="tag">結語 <b>★</b></div><div class="slide-content"><div class="kicker">給太空所同學</div><h2>三句話</h2><div class="advlist"><div class="adv"><div class="an">1</div><div><h3>先有真實問題，再找 AI。</h3><p>沒有問題的時候，AI 只會給你很像樣的廢話。我所有跑得動的專案，起點都是一個具體到煩人的作業需求。</p></div></div><div class="adv"><div class="an">2</div><div><h3>工具會換，判斷不會。</h3><p>三年換了三代工具。唯一累積下來的，是「知道什麼時候該懷疑結果」。那 1640 次沒跑出預測的觸發，不是 AI 發現的。</p></div></div><div class="adv"><div class="an">3</div><div><h3>把成果留在看得見的地方。</h3><p>GitHub、Hugging Face、一個網址。你的研究能不能被看見，跟做得好不好一樣重要。</p></div></div></div></div><div class="pageno">51 / 52</div></section>
+<section class="slide closing" id="s45"><div class="tag">結語</div><div class="slide-content"><div class="two two-6-5 closewrap">
+  <div>
+    <h1 class="closeh">謝謝聆聽</h1>
+    <p class="closes">Q & A</p>
+    <div class="reslist"><div class="res"><span class="rk">本場簡報</span><span class="rv">https://oceanicdayi.github.io/1001-nycu-space/</span></div><div class="res"><span class="rk">四支教學影片</span><span class="rv">https://oceanicdayi.github.io/1001-nycu-space/videos.html</span></div><div class="res"><span class="rk">邊緣地震儀即時監測</span><span class="rv">https://drewhui.github.io/RASPBERRYSHAKE_CCU/</span></div><div class="res"><span class="rk">CWA EEW Docker</span><span class="rv">docker pull cwadayi/earthworm_ubuntu22.04_eew:v1</span></div></div>
+    <p class="contact">陳達毅｜中央氣象署地震測報中心 測報技術科</p>
+  </div>
+  <div class="qrbox big"><img src="assets/qr_site.png" alt="QR"><div class="qrcap">簡報網址</div></div>
+</div></div><div class="pageno">52 / 52</div></section>
+</main>
+
+<div class="hud"><div class="hudbar"></div></div>
+<div class="hint">← → 換頁　N 備忘　O 總覽　T 計時　F 全螢幕</div>
+<div class="ctl">
+  <div id="clock">00:00 / 50:00</div>
+  <button id="btnT" title="計時器 (T)">⏱</button>
+  <button id="btnO" title="總覽 (O)">▦</button>
+  <button id="btnN" title="講者備忘 (N)">✎</button>
+  <button id="btnPrev" title="上一頁">←</button>
+  <button id="btnNext" title="下一頁">→</button>
+</div>
+
+<div id="notes"><h4></h4><pre></pre></div>
+<div id="ov"><div class="ovgrid"></div></div>
+
+<script>
+window.__NOTES__ = ["不用急著開始。等人坐定，看一下台下。", "30 秒。這頁的唯一任務是建立共同語言：我們是同一掛的。\n不要講論文細節，講『同一場事件，四種感測器，兩個社群』。", "不要照念。重點只有一句：我白天在氣象署做即時系統，晚上在大學教書。\n這兩個身分讓我對 AI 帶來的改變，感受特別具體。", "立 flag。讓聽眾知道 60 分鐘要帶走什麼。\n講完停 2 秒再進下一頁。", "段落轉場。", "用「競速」定調整段。這是全場的節奏基準。", "太空所聽眾多半不是地科背景。講清楚，但不超過 60 秒。", "數字要講慢。每個數字之間停半拍。", "★ 這頁不要講太久，但講完要停 3 秒。\n後面所有技術討論的重量，都是從這一頁來的。", "把「這是一個永遠有人在線的系統」講出來。", "這裡切到他們熟悉的語言。這句類比要講清楚，是本段的橋樑。", "★ 這頁對太空所是甜蜜點。可以多花 30 秒。\n如果有人做過飛控軟體，這裡會有共鳴，可以互動一下。", "帶出 latency budget 的概念，下一段講難題時會回來用。", "這頁是伏筆，接 S26 的 Agent 監控。時間不夠可以跳過。", "段落轉場。★ 這一整段是專門為太空所加的。轉場句：「我剛剛講的都是地震。但這些儀器記錄到的，遠不只地震。」", "這頁是整段的立論。慢慢講，特別是最後一點（聲波耦合）。可以問：「有人想過地震儀聽得到聲音嗎？」", "★ 這是整段最關鍵的一張圖，給它 90 秒。先讓他們自己看出有兩條線，再講速度各代表什麼。", "這個結論很反直覺，研究生會喜歡。延伸一句：選訊號不是挑最強的，是挑誤差結構最有利的。", "★ 這頁是給太空所的正題。重點是「兩個解不一致 = 它在動」這個推理，這是很漂亮的科學。山田真澄是我長期合作的對象（Yamada & Chen 2022；Chen & Yamada 2024）。", "★ 這頁是整段的收束，也是對太空所最有力的一句。「光學看不到的時候，它還在錄」—— 講完停一下。可以接：你們做衛星、做遙測，地面這張網是你們的另一組眼睛。", "段落轉場。語氣要轉嚴肅。", "★ 這是整場最誠實的一頁，不要包裝，不要找藉口。\n研究生需要看到真實系統的失敗長什麼樣子。", "這個觀念後面接 SSIF 逐秒震度序列模型，是伏筆。", "鋪陳。下一段講 AI 時要回扣這裡。", "★ 這句是整場的價值觀。講慢，講完停一下。\n後面講 AI Agent 的時候，所有人都會記得這句。", "段落轉場。語氣轉輕快，這段是全場能量最高的部分。", "★ 核心句：「用 2026 年的方式去思考每一項工作。」\n這句要重複兩次。", "強調「依情境切換」。學生最容易犯的錯是找一個萬用工具。", "氣象署的立場要講清楚，這也是很多研究單位的共同限制。", "這是真的在跑的服務，可以現場開給他們看（如果有網路）。", "這頁對現場如果有老師在，會很有共鳴。", "★ 這頁是整場最有記憶點的一頁。給它 90 秒。\n可以講一個具體情境：開會中想到一個分析，直接用手機發動。", "「這不是投影片上的構想，是每 30 分鐘真的在跑的 cron。」\n這句要說出來。", "回扣 S18 那句「讓人工檢核有時間做該做的判斷」。", "段落轉場。先講完四個是什麼，再決定現場跑哪一個。", "現場策略：時間夠就實跑 ①；時間不夠四張快速帶過 + 指 QR。\n★ 網路不通一律走預錄截圖，不要現場硬連。", "段落轉場。", "這頁很容易得到共鳴，特別是研究生。", "8 年這個數字要講，它代表我看過 AI 前後的對照組。", "這個轉折很多人沒想過，值得停一下。", "★ 這頁對太空所是第二個甜蜜點。\n自監督學習的動機他們完全共感，可以多花點時間。", "這頁可以快，但要讓他們知道這條線是有資源、有產出的。", "★ 這是全場主線第一次正式登場。\n它同時是「AI 協同開發的實例」「研究成果」「未來藍圖的縮影」。", "★ 太空所的第三個甜蜜點。graceful degradation 這個詞直接用，不翻譯。", "段落轉場。★ 這個順序是故意的。", "★ 這頁一定要講完。\n對研究生而言，「AI 協作也要有除錯紀律」比任何成功案例都重要。", "race condition 這個詞對太空所很有感，他們做即時系統一定遇過。", "四層架構，由下而上講。最上面那層是人，這個排法是故意的。", "三句話，每句停一下。", "★ 全場的收束句。講完停 3 秒再進最後一段。", "慢慢講。這是他們真正會帶走的東西。", "留 10 分鐘 Q&A。\n可能被問：AI 寫的程式敢不敢上正式系統？→ 答案在 S39/S40，回去指那兩頁。"];
+window.__META__  = [{"t": "AI Agent 賦能", "p": "", "e": false, "o": false}, {"t": "我們其實見過面", "p": "開場", "e": true, "o": false}, {"t": "陳達毅", "p": "開場", "e": false, "o": false}, {"t": "三個問題", "p": "開場", "e": false, "o": false}, {"t": "地震測報的工作現場", "p": "工作現場", "e": false, "o": false}, {"t": "競速", "p": "工作現場", "e": false, "o": false}, {"t": "臺灣的地震環境", "p": "工作現場", "e": false, "o": false}, {"t": "這是一個常態，不是意外", "p": "工作現場", "e": false, "o": true}, {"t": "過去十年", "p": "工作現場", "e": false, "o": true}, {"t": "60 人，24 小時，全年無休", "p": "工作現場", "e": false, "o": false}, {"t": "即時觀測網：巨量資料", "p": "工作現場", "e": false, "o": false}, {"t": "Earthworm：模組化即時系統", "p": "工作現場", "e": false, "o": false}, {"t": "預警鏈路：每一步都在跟時間借錢", "p": "工作現場", "e": false, "o": false}, {"t": "我們早就在用 dashboard 看系統", "p": "工作現場", "e": false, "o": true}, {"t": "地震儀記錄的不只是地震", "p": "不只是地震", "e": false, "o": false}, {"t": "它不是「地震偵測器」", "p": "不只是地震", "e": false, "o": false}, {"t": "同一批儀器，同時看到兩種波", "p": "不只是地震", "e": true, "o": false}, {"t": "反直覺：慢的訊號，定位反而更準", "p": "不只是地震", "e": false, "o": true}, {"t": "用地震網追一顆進入大氣層的物體", "p": "不只是地震", "e": true, "o": false}, {"t": "2021 札幌：天是晴的，但沒人看見它", "p": "不只是地震", "e": true, "o": false}, {"t": "這份工作真正的難題", "p": "難題", "e": false, "o": false}, {"t": "誤報的代價", "p": "難題", "e": true, "o": false}, {"t": "強度之外，還有持續時間", "p": "難題", "e": false, "o": false}, {"t": "參數調校是人工的", "p": "難題", "e": false, "o": false}, {"t": "地震報告為什麼會慢？", "p": "難題", "e": true, "o": false}, {"t": "我的 AI 工作流程演進", "p": "AI 工作流程", "e": false, "o": false}, {"t": "用 2026 年的方式，去思考每一項工作", "p": "AI 工作流程", "e": false, "o": false}, {"t": "我現在同時跑四條路線", "p": "AI 工作流程", "e": false, "o": false}, {"t": "本機工作台：資料不出機器", "p": "AI 工作流程", "e": false, "o": false}, {"t": "雲端開發：從開發到上線一條龍", "p": "AI 工作流程", "e": false, "o": false}, {"t": "純網頁：零安裝門檻", "p": "AI 工作流程", "e": false, "o": true}, {"t": "Hermes Agent × Telegram × Ob", "p": "AI 工作流程", "e": true, "o": false}, {"t": "EEW 多代理群：每 30 分鐘真的在跑", "p": "AI 工作流程", "e": false, "o": false}, {"t": "事件進來，報告出去，人只在決策點介入", "p": "AI 工作流程", "e": false, "o": false}, {"t": "四個可複製的工作流", "p": "Demo", "e": false, "o": false}, {"t": "掃碼就能看", "p": "Demo", "e": false, "o": false}, {"t": "成果", "p": "成果", "e": false, "o": false}, {"t": "學生的作業長在網路上", "p": "成果", "e": false, "o": false}, {"t": "我自己的教法也被改寫了", "p": "成果", "e": false, "o": true}, {"t": "用 AI 觀測「學生怎麼學」", "p": "成果", "e": false, "o": true}, {"t": "大型地震模型 LEM：從語音到地震", "p": "成果", "e": false, "o": false}, {"t": "國科會計畫：把它做成可驗證的東西", "p": "成果", "e": false, "o": true}, {"t": "邊緣地震儀：一顆 Raspberry Pi 的完整 EE", "p": "成果", "e": false, "o": false}, {"t": "它真的抓到地震了", "p": "成果", "e": true, "o": false}, {"t": "新藍圖", "p": "新藍圖", "e": false, "o": false}, {"t": "AI 也會出錯，而且錯得很安靜", "p": "新藍圖", "e": true, "o": false}, {"t": "跑了 1640 次，一次都沒真的預測", "p": "新藍圖", "e": true, "o": false}, {"t": "下一代測報中心", "p": "新藍圖", "e": false, "o": false}, {"t": "三件正在發生的事", "p": "新藍圖", "e": false, "o": true}, {"t": "AI 到底改變了什麼？", "p": "新藍圖", "e": true, "o": false}, {"t": "三句話", "p": "結語", "e": true, "o": false}, {"t": "謝謝聆聽", "p": "結語", "e": false, "o": false}];
+window.__LIMIT__ = 50;
+</script>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var NOTES = window.__NOTES__ || [];
+  var META  = window.__META__ || [];
+  var cur = 0, total = slides.length;
+
+  var bar   = document.querySelector('.hudbar');
+  var notes = document.getElementById('notes');
+  var npre  = notes.querySelector('pre');
+  var nh    = notes.querySelector('h4');
+  var ov    = document.getElementById('ov');
+  var clock = document.getElementById('clock');
+
+  /* ── 進場動畫 ── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('on');
+        var i = slides.indexOf(e.target);
+        if(i >= 0){ cur = i; sync(); }
+      }
+    });
+  }, {threshold:0.55});
+  slides.forEach(function(s){ io.observe(s); });
+
+  function sync(){
+    bar.style.width = ((cur+1)/total*100) + '%';
+    npre.textContent = NOTES[cur] || '（這頁沒有備忘）';
+    nh.textContent = (cur+1) + ' / ' + total + '　' + (META[cur] ? META[cur].t : '');
+  }
+
+  function go(i){
+    cur = Math.max(0, Math.min(total-1, i));
+    slides[cur].scrollIntoView({behavior:'smooth', block:'start'});
+    sync();
+  }
+
+  /* ── 鍵盤 ── */
+  document.addEventListener('keydown', function(e){
+    var k = e.key;
+    if(k==='ArrowRight'||k==='ArrowDown'||k==='PageDown'||k===' '){ e.preventDefault(); go(cur+1); }
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(k==='Home'){ e.preventDefault(); go(0); }
+    else if(k==='End'){ e.preventDefault(); go(total-1); }
+    else if(k==='n'||k==='N'){ notes.classList.toggle('show'); }
+    else if(k==='o'||k==='O'){ ov.classList.toggle('show'); }
+    else if(k==='t'||k==='T'){ toggleTimer(); }
+    else if(k==='f'||k==='F'){
+      if(document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+    }
+    else if(k==='Escape'){ ov.classList.remove('show'); notes.classList.remove('show'); }
+  });
+
+  /* ── 滾輪（節流，避免一次跳多頁） ── */
+  var lock = false;
+  window.addEventListener('wheel', function(e){
+    if(ov.classList.contains('show')) return;
+    if(notes.classList.contains('show') && notes.contains(e.target)) return;
+    if(lock) return;
+    if(Math.abs(e.deltaY) < 18) return;
+    lock = true;
+    go(cur + (e.deltaY > 0 ? 1 : -1));
+    setTimeout(function(){ lock = false; }, 620);
+  }, {passive:true});
+
+  /* ── 觸控 ── */
+  var y0 = null;
+  window.addEventListener('touchstart', function(e){ y0 = e.touches[0].clientY; }, {passive:true});
+  window.addEventListener('touchend', function(e){
+    if(y0 === null) return;
+    var dy = y0 - e.changedTouches[0].clientY;
+    if(Math.abs(dy) > 55) go(cur + (dy > 0 ? 1 : -1));
+    y0 = null;
+  }, {passive:true});
+
+  /* ── 計時器 ── */
+  var t0 = null, tid = null, LIMIT = (window.__LIMIT__ || 50) * 60;
+  function fmt(s){
+    var m = Math.floor(s/60), r = s%60;
+    return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;
+  }
+  function tick(){
+    var el = Math.floor((Date.now()-t0)/1000);
+    /* 目標進度：依投影片位置估算應該用掉多少時間 */
+    var want = Math.floor(LIMIT * (cur+1)/total);
+    var diff = el - want;
+    clock.textContent = fmt(el) + ' / ' + fmt(LIMIT) +
+                        '　' + (diff>=0?'+':'−') + fmt(Math.abs(diff));
+    clock.classList.toggle('over', diff > 120);
+  }
+  function toggleTimer(){
+    var btn = document.getElementById('btnT');
+    if(tid){ clearInterval(tid); tid = null; btn.classList.remove('live'); }
+    else { t0 = t0 || Date.now(); tick(); tid = setInterval(tick, 1000); btn.classList.add('live'); }
+  }
+  window.__toggleTimer = toggleTimer;
+
+  /* ── 按鈕 ── */
+  document.getElementById('btnPrev').onclick = function(){ go(cur-1); };
+  document.getElementById('btnNext').onclick = function(){ go(cur+1); };
+  document.getElementById('btnN').onclick    = function(){ notes.classList.toggle('show'); };
+  document.getElementById('btnO').onclick    = function(){ ov.classList.toggle('show'); };
+  document.getElementById('btnT').onclick    = toggleTimer;
+
+  /* ── 總覽 ── */
+  var grid = document.querySelector('.ovgrid');
+  META.forEach(function(m, i){
+    var d = document.createElement('div');
+    d.className = 'ovc' + (m.e ? ' ess' : '') + (m.o ? ' opt' : '');
+    d.innerHTML = '<div class="on_">'+(i+1)+(m.e?' ★':'')+(m.o?' ◇':'')+'</div>' +
+                  '<div class="ot">'+m.t+'</div><div class="op">'+m.p+'</div>';
+    d.onclick = function(){ ov.classList.remove('show'); go(i); };
+    grid.appendChild(d);
+  });
+
+  sync();
+})();
+</script>
+</body>
+</html>
