@@ -102,13 +102,13 @@ GitHub Copilot Agent 自動提了一個 PR 改了 `index.html`，但那是產生
 
 | 工具 | 用途 | 截圖 |
 |------|------|------|
-| Claude (VSCode) | 主要協作環境，產生器、建置腳本、論文分析 | ![VSCode + Claude](使用vscode搭配claude進行教學影片製作與演講投影片製作的實例.png) |
-| Claude (Antigravity IDE) | Agent-first IDE，製作教學影片 | ![Antigravity + Claude](使用antigravity搭配claude進行教學影片製作與演講投影片製作的實例-1.png) |
-| Claude Desktop | 讀取本機歷史影片檔案、抓取聲線特徵 | ![Claude Desktop 讀取歷史影片](發現影片的聲音是女生-用claude desktop讀取電腦中我過去的演講影片檔案-抓取聲線-重新修改影片.png) |
-| ChatGPT | 影片音訊文字擷取 | ![ChatGPT 抓取音訊文字](上傳我的演講影片-用chatgpt抓取影片音訊文字.png) |
-| Gemini | 確認 AI 生成內容是否正確 | ![Gemini 確認內容](利用gemini確認AI生成的內容是否正確-1.png) |
-| Ollama Cloud | 模型切換 | ![Ollama Cloud](改用ollama cloud的模型.png) |
-| GitHub Copilot Agent | 自動提 PR 優化 HTML 版面 | ![Copilot Agent + Grok Bot](github的copilot agent和grok bot都可以對同一個github 專案進行修改.png) |
+| Claude (VSCode) | 主要協作環境，產生器、建置腳本、論文分析 | ![VSCode + Claude](images/06-vscode-claude.png) |
+| Claude (Antigravity IDE) | Agent-first IDE，製作教學影片 | ![Antigravity + Claude](images/04-antigravity-claude-1.png) |
+| Claude Desktop | 讀取本機歷史影片檔案、抓取聲線特徵 | ![Claude Desktop 讀取歷史影片](images/13-voice-fix.png) |
+| ChatGPT | 影片音訊文字擷取 | ![ChatGPT 抓取音訊文字](images/03-chatgpt-audio-text.png) |
+| Gemini | 確認 AI 生成內容是否正確 | ![Gemini 確認內容](images/07-gemini-verify-1.png) |
+| Ollama Cloud | 模型切換 | ![Ollama Cloud](images/10-ollama-cloud.png) |
+| GitHub Copilot Agent | 自動提 PR 優化 HTML 版面 | ![Copilot Agent + Grok Bot](images/02-copilot-grok-bot.png) |
 
 ### 3.1 影片聲線問題 — AI 自我修正
 
@@ -121,7 +121,7 @@ AI：用 Claude Desktop 讀取電腦中過去的演講影片檔案，
 
 AI 合成的旁白預設是女聲，與講者本人（男聲）不符。AI 用 Claude Desktop 讀取講者本機的歷史演講影片，分析聲線特徵後重新合成。
 
-![發現聲線問題](發現影片的聲音是女生-用claude desktop讀取電腦中我過去的演講影片檔案-抓取聲線-重新修改影片-2.png)
+![發現聲線問題](images/11-voice-fix-2.png)
 
 ### 3.2 Session Limit — AI 主動告知限制
 
@@ -130,14 +130,14 @@ AI：claude 的 session limit 用完了。
     改用 ollama cloud 的模型繼續。
 ```
 
-![Session Limit](claude的session limit用完.png)
+![Session Limit](images/01-session-limit.png)
 
 ### 3.3 多 AI 交叉驗證
 
 用 Gemini 確認 Claude 生成的內容是否正確——特別是論文中的感測器清單（氣壓計 vs GNSS TEC 的差異）。
 
-![Gemini 驗證-1](利用gemini確認AI生成的內容是否正確-1.png)
-![Gemini 驗證-2](利用gemini確認AI生成的內容是否正確-2.png)
+![Gemini 驗證-1](images/07-gemini-verify-1.png)
+![Gemini 驗證-2](images/08-gemini-verify-2.png)
 
 ---
 
