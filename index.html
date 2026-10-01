@@ -291,6 +291,15 @@ code{font-family:var(--mono);background:rgba(56,225,214,.1);color:var(--cy);
 .vcard h3{color:#fff;font-size:clamp(.8rem,1.15vw,1.02rem);margin:.15em 0 .35em}
 .vwhat{font-size:clamp(.64rem,.86vw,.8rem);color:var(--dim);line-height:1.4}
 .vwhy{font-size:clamp(.64rem,.86vw,.8rem);color:var(--cy);margin-top:.4em;line-height:1.4}
+.vmeta{font-family:var(--mono);font-size:clamp(.54rem,.7vw,.63rem);color:var(--mute);margin-top:.5em;
+  letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between;gap:.4em}
+.vgo{display:inline-flex;align-items:center;white-space:nowrap;border:1px solid var(--cy);
+  color:var(--cy);text-decoration:none;padding:.18em .65em;border-radius:999px;
+  font-size:clamp(.52rem,.68vw,.6rem);font-weight:600;transition:background .18s,color .18s}
+.vgo:hover{background:var(--cy);color:#070b14}
+.vgo[aria-disabled="true"]{border-color:var(--line);color:var(--mute);pointer-events:none}
+.vnote{font-size:clamp(.6rem,.8vw,.74rem);color:var(--am);background:rgba(255,179,64,.09);
+  border-left:3px solid var(--am);padding:.45em .9em;border-radius:0 6px 6px 0;margin-bottom:.5rem}
 .qrbox{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6em}
 .qrbox img{width:min(100%,clamp(110px,15vw,210px));image-rendering:pixelated;
   background:#fff;padding:8px;border-radius:9px}
@@ -554,8 +563,9 @@ code{font-family:var(--mono);background:rgba(56,225,214,.1);color:var(--cy);
   <p class="ssub">全部錄成影片，你們掃碼帶走</p>
 </div></div><div class="pageno">41 / 58</div></section>
 <section class="slide videos" id="s29"><div class="tag">Demo</div><div class="slide-content"><div class="kicker">教學影片</div><h2>掃碼就能看</h2>
+<div id="vnote-s29"></div>
 <div class="two two-8-3">
-  <div class="vgrid"><div class="vcard"><div class="vn">01</div><h3>GitHub 如何協助研究工作</h3><p class="vwhat">建 repo → commit 就是實驗記錄 → GitHub Pages 發布成果網頁</p><p class="vwhy">版本控制不是工程師的工具，是<b>實驗紀錄簿</b></p></div><div class="vcard"><div class="vn">02</div><h3>Cursor × ChatGPT × GitHub × Drive</h3><p class="vwhat">純雲端資料處理與系統開發，結果存 Drive、程式進 GitHub、網頁上 Pages</p><p class="vwhy">沒有自己的伺服器，也能做完整的系統</p></div><div class="vcard"><div class="vn">03</div><h3>Antigravity IDE / VSCode 本機工作台</h3><p class="vwhat">直接分析電腦端檔案，外接訂閱制 LLM 做研究分析與系統開發</p><p class="vwhy">資料不出機器，算力在雲端</p></div><div class="vcard"><div class="vn">04</div><h3>Hermes Agent × Telegram × Obsidian</h3><p class="vwhat">離開電腦也能做研究與收資訊，成果自動沉澱</p><p class="vwhy">研究的門檻降到「拿出手機」</p></div></div>
+  <div class="vgrid" id="vgrid-s29"></div>
   <div class="qrbox"><img src="assets/qr_videos.png" alt="QR"><div class="qrcap">https://oceanicdayi.github.io/1001-nycu-space/videos.html</div></div>
 </div></div><div class="pageno">42 / 58</div></section>
 <section class="slide section" id="s30"><div class="tag">成果</div><div class="slide-content"><div class="sect">
@@ -623,6 +633,37 @@ code{font-family:var(--mono);background:rgba(56,225,214,.1);color:var(--cy);
 window.__NOTES__ = ["不用急著開始。等人坐定，看一下台下。", "30 秒。這頁的唯一任務是建立共同語言：我們是同一掛的。\n不要講論文細節，講『同一場事件，四種感測器，兩個社群』。", "不要照念。重點只有一句：我白天在氣象署做即時系統，晚上在大學教書。\n這兩個身分讓我對 AI 帶來的改變，感受特別具體。", "立 flag。讓聽眾知道 60 分鐘要帶走什麼。\n講完停 2 秒再進下一頁。", "段落轉場。", "用「競速」定調整段。這是全場的節奏基準。", "兩段都很短，不要全播。1999 那段放 10 秒帶過，2024 行車紀錄器放到搖晃最明顯的地方就停。重點是對比，不是看完。", "太空所聽眾多半不是地科背景。講清楚，但不超過 60 秒。", "數字要講慢。每個數字之間停半拍。", "★ 這頁不要講太久，但講完要停 3 秒。\n後面所有技術討論的重量，都是從這一頁來的。", "把「這是一個永遠有人在線的系統」講出來。", "這裡切到他們熟悉的語言。這句類比要講清楚，是本段的橋樑。", "★ 這頁對太空所是甜蜜點。可以多花 30 秒。\n如果有人做過飛控軟體，這裡會有共鳴，可以互動一下。", "帶出 latency budget 的概念，下一段講難題時會回來用。", "這頁讓他們看到系統的輸出端長什麼樣。可以問：如果你只有 10 秒，你會先做什麼？", "這頁是伏筆，接 S26 的 Agent 監控。時間不夠可以跳過。", "段落轉場。★ 這一整段是專門為太空所加的。轉場句：「我剛剛講的都是地震。但這些儀器記錄到的，遠不只地震。」", "這頁是整段的立論。慢慢講，特別是最後一點（聲波耦合）。可以問：「有人想過地震儀聽得到聲音嗎？」", "★ 這是整段最關鍵的一張圖，給它 90 秒。先讓他們自己看出有兩條線，再講速度各代表什麼。", "這個結論很反直覺，研究生會喜歡。延伸一句：選訊號不是挑最強的，是挑誤差結構最有利的。", "★ 這頁是給太空所的正題。重點是「兩個解不一致 = 它在動」這個推理，這是很漂亮的科學。山田真澄是我長期合作的對象（Yamada & Chen 2022；Chen & Yamada 2024）。", "★ 這頁是整段的收束，也是對太空所最有力的一句。「光學看不到的時候，它還在錄」—— 講完停一下。可以接：你們做衛星、做遙測，地面這張網是你們的另一組眼睛。", "回扣開場 p02。這次講細節。共同作者有中央大學太空科學與工程學系的劉正彥老師 —— 這篇本身就是地科與太空的跨領域合作。", "★ 這是整段最硬的一張證據，也是全場最適合停下來的地方之一。指著第三軌（HH E）說：這是地震儀，但這不是地震。", "◇ 時間不夠可以跳過，但這頁很漂亮。重點：跨系統觀測才解得開的現象。單一領域的資料會得到錯的結論。", "段落轉場。語氣要轉嚴肅。", "★ 這是整場最誠實的一頁，不要包裝，不要找藉口。\n研究生需要看到真實系統的失敗長什麼樣子。", "這個觀念後面接 SSIF 逐秒震度序列模型，是伏筆。", "鋪陳。下一段講 AI 時要回扣這裡。", "★ 這句是整場的價值觀。講慢，講完停一下。\n後面講 AI Agent 的時候，所有人都會記得這句。", "段落轉場。語氣轉輕快，這段是全場能量最高的部分。", "★ 核心句：「用 2026 年的方式去思考每一項工作。」\n這句要重複兩次。", "強調「依情境切換」。學生最容易犯的錯是找一個萬用工具。", "氣象署的立場要講清楚，這也是很多研究單位的共同限制。", "這是真的在跑的服務，可以現場開給他們看（如果有網路）。", "這頁對現場如果有老師在，會很有共鳴。", "★ 這頁是整場最有記憶點的一頁。給它 90 秒。\n可以講一個具體情境：開會中想到一個分析，直接用手機發動。\n\n【口頭補充｜Grok bot，約 30 秒】\n這一套有兩種裝法。\nHermes Agent 裝在我自己的電腦上，所以它碰得到本機的原始資料、\n碰得到正在跑的系統 —— 剛才那條「資料不出機器」的限制，只有它做得到。\n另一種是 Grok bot，它是雲端服務，什麼都不用安裝，\n而且它跟 Google Drive 跟 GitHub 的連結特別方便 ——\n那剛好就是路線②整套雲端資產放的地方。\n我給學生的建議是：先用 Grok bot，入門成本是零；\n等你撞到「那個檔案在我自己電腦裡，它拿不到」那道牆，再去裝 Hermes。\n雲端的入門成本低，本機的能力上限高。\n\n→ 影片 04 講得更完整。超時可整段省略。", "★ 這頁是 p32 Hermes 的補充。重點不是哪個比較好，是「依資料的性質選路線」。Grok bot 最大的優勢是零安裝 + 原生接 Drive 與 GitHub，對學生來說門檻低很多 —— 他們沒有機器可以一直開著。", "「這不是投影片上的構想，是每 30 分鐘真的在跑的 cron。」\n這句要說出來。", "回扣 S18 那句「讓人工檢核有時間做該做的判斷」。", "段落轉場。先講完四個是什麼，再決定現場跑哪一個。", "現場策略：時間夠就實跑 ①；時間不夠四張快速帶過 + 指 QR。\n★ 網路不通一律走預錄截圖，不要現場硬連。", "段落轉場。", "這頁很容易得到共鳴，特別是研究生。", "8 年這個數字要講，它代表我看過 AI 前後的對照組。", "這個轉折很多人沒想過，值得停一下。", "★ 這頁對太空所是第二個甜蜜點。\n自監督學習的動機他們完全共感，可以多花點時間。", "這頁可以快，但要讓他們知道這條線是有資源、有產出的。", "★ 這是全場主線第一次正式登場。\n它同時是「AI 協同開發的實例」「研究成果」「未來藍圖的縮影」。", "★ 太空所的第三個甜蜜點。graceful degradation 這個詞直接用，不翻譯。", "段落轉場。★ 這個順序是故意的。", "★ 這頁一定要講完。\n對研究生而言，「AI 協作也要有除錯紀律」比任何成功案例都重要。", "race condition 這個詞對太空所很有感，他們做即時系統一定遇過。", "四層架構，由下而上講。最上面那層是人，這個排法是故意的。", "三句話，每句停一下。", "★ 全場的收束句。講完停 3 秒再進最後一段。", "慢慢講。這是他們真正會帶走的東西。", "留 10 分鐘 Q&A。\n可能被問：AI 寫的程式敢不敢上正式系統？→ 答案在 S39/S40，回去指那兩頁。"];
 window.__META__  = [{"t": "AI Agent 賦能", "p": "", "e": false, "o": false}, {"t": "我們其實見過面", "p": "開場", "e": true, "o": false}, {"t": "陳達毅", "p": "開場", "e": false, "o": false}, {"t": "三個問題", "p": "開場", "e": false, "o": false}, {"t": "地震測報的工作現場", "p": "工作現場", "e": false, "o": false}, {"t": "競速", "p": "工作現場", "e": false, "o": false}, {"t": "同一件事，兩個世代的畫面", "p": "工作現場", "e": false, "o": true}, {"t": "臺灣的地震環境", "p": "工作現場", "e": false, "o": false}, {"t": "這是一個常態，不是意外", "p": "工作現場", "e": false, "o": true}, {"t": "過去十年", "p": "工作現場", "e": false, "o": true}, {"t": "60 人，24 小時，全年無休", "p": "工作現場", "e": false, "o": false}, {"t": "即時觀測網：巨量資料", "p": "工作現場", "e": false, "o": false}, {"t": "Earthworm：模組化即時系統", "p": "工作現場", "e": false, "o": false}, {"t": "從偵測到發布，只有幾秒", "p": "工作現場", "e": false, "o": false}, {"t": "警報長什麼樣子", "p": "工作現場", "e": false, "o": false}, {"t": "我們早就在用 dashboard 看系統", "p": "工作現場", "e": false, "o": true}, {"t": "地震儀記錄的不只是地震", "p": "不只是地震", "e": false, "o": false}, {"t": "它不是「地震偵測器」", "p": "不只是地震", "e": false, "o": false}, {"t": "同一批儀器，同時看到兩種波", "p": "不只是地震", "e": true, "o": false}, {"t": "反直覺：慢的訊號，定位反而更準", "p": "不只是地震", "e": false, "o": true}, {"t": "用地震網追一顆進入大氣層的物體", "p": "不只是地震", "e": true, "o": false}, {"t": "2021 札幌：天是晴的，但沒人看見它", "p": "不只是地震", "e": true, "o": false}, {"t": "8500 公里外的一次噴發", "p": "不只是地震", "e": false, "o": false}, {"t": "同一個測站，三種儀器，同一個訊號", "p": "不只是地震", "e": true, "o": false}, {"t": "一種不是地震造成的海嘯", "p": "不只是地震", "e": false, "o": true}, {"t": "這份工作真正的難題", "p": "難題", "e": false, "o": false}, {"t": "誤報的代價", "p": "難題", "e": true, "o": false}, {"t": "強度之外，還有持續時間", "p": "難題", "e": false, "o": false}, {"t": "參數調校是人工的", "p": "難題", "e": false, "o": false}, {"t": "地震報告為什麼會慢？", "p": "難題", "e": true, "o": false}, {"t": "我的 AI 工作流程演進", "p": "AI 工作流程", "e": false, "o": false}, {"t": "用 2026 年的方式，去思考每一項工作", "p": "AI 工作流程", "e": false, "o": false}, {"t": "我現在同時跑四條路線", "p": "AI 工作流程", "e": false, "o": false}, {"t": "本機工作台：資料不出機器", "p": "AI 工作流程", "e": false, "o": false}, {"t": "雲端開發：從開發到上線一條龍", "p": "AI 工作流程", "e": false, "o": false}, {"t": "純網頁：零安裝門檻", "p": "AI 工作流程", "e": false, "o": true}, {"t": "Hermes Agent × Telegram × Ob", "p": "AI 工作流程", "e": true, "o": false}, {"t": "本機的 Hermes，雲端的 Grok bot", "p": "AI 工作流程", "e": false, "o": false}, {"t": "EEW 多代理群：每 30 分鐘真的在跑", "p": "AI 工作流程", "e": false, "o": false}, {"t": "事件進來，報告出去，人只在決策點介入", "p": "AI 工作流程", "e": false, "o": false}, {"t": "四個可複製的工作流", "p": "Demo", "e": false, "o": false}, {"t": "掃碼就能看", "p": "Demo", "e": false, "o": false}, {"t": "成果", "p": "成果", "e": false, "o": false}, {"t": "學生的作業長在網路上", "p": "成果", "e": false, "o": false}, {"t": "我自己的教法也被改寫了", "p": "成果", "e": false, "o": true}, {"t": "用 AI 觀測「學生怎麼學」", "p": "成果", "e": false, "o": true}, {"t": "大型地震模型 LEM：從語音到地震", "p": "成果", "e": false, "o": false}, {"t": "國科會計畫：把它做成可驗證的東西", "p": "成果", "e": false, "o": true}, {"t": "邊緣地震儀：一顆 Raspberry Pi 的完整 EE", "p": "成果", "e": false, "o": false}, {"t": "它真的抓到地震了", "p": "成果", "e": true, "o": false}, {"t": "新藍圖", "p": "新藍圖", "e": false, "o": false}, {"t": "AI 也會出錯，而且錯得很安靜", "p": "新藍圖", "e": true, "o": false}, {"t": "跑了 1640 次，一次都沒真的預測", "p": "新藍圖", "e": true, "o": false}, {"t": "下一代測報中心", "p": "新藍圖", "e": false, "o": false}, {"t": "三件正在發生的事", "p": "新藍圖", "e": false, "o": true}, {"t": "AI 到底改變了什麼？", "p": "新藍圖", "e": true, "o": false}, {"t": "三句話", "p": "結語", "e": true, "o": false}, {"t": "謝謝聆聽", "p": "結語", "e": false, "o": false}];
 window.__LIMIT__ = 50;
+/* 影片資料（與 videos.html 同步） */
+window.__VIDEOS__ = [
+  {
+    n:"01",
+    title:"GitHub 如何協助研究工作",
+    what:"建 repo、第一次 commit、看 diff、用 GitHub Pages 把成果變成一個網址。順道看 NASA cFS 的 commit 紀錄長什麼樣。",
+    why:"commit 不是存檔，commit 是實驗紀錄。版本管控的嚴格程度，跟你的系統多難回頭成正比 —— 衛星發射之後你碰不到它了。",
+    len:"約 8 分鐘",url:""
+  },
+  {
+    n:"02",
+    title:"Cursor × ChatGPT × GitHub × Google Drive",
+    what:"現場做一張衛星過境地圖：讀 TLE、SGP4 傳播、畫地面軌跡、加測站可視範圍，部署到 GitHub Pages。需要後端就上 Hugging Face Space。",
+    why:"沒有伺服器，也能做出別人打得開的系統。資料層＋處理層＋展示層 —— 一個迷你 ground segment，一個下午做得出來。",
+    len:"約 9 分鐘",url:""
+  },
+  {
+    n:"03",
+    title:"Antigravity IDE / VSCode 本機工作台",
+    what:"直接讀本機原始觀測與 housekeeping 遙測、接上正在跑的即時系統看 log、依任務切換訂閱制 LLM。含 Earthworm 的 ring 對比 NASA cFS 的 software bus。",
+    why:"算力在雲端，資料在本地。而且有一條線要劃清楚：AI 不進即時迴圈 —— 延遲預算用秒在算的路徑上，不能放一個回應時間不確定的東西。",
+    len:"約 9.5 分鐘",url:""
+  },
+  {
+    n:"04",
+    title:"Hermes Agent × Telegram × Obsidian（含 Grok bot）",
+    what:"用一則訊息發動研究任務：抓 NOAA SWPC 的 Kp 與閃焰、對照地磁，結果自動寫回 Obsidian。兩種裝法都講：本機的 Hermes Agent，與不用安裝、直接連 Drive 與 GitHub 的雲端 Grok bot。",
+    why:"事件不等你。閃焰、過境窗口、在軌異常都不會挑你有空的時候發生 —— 人不可能 24 小時在電腦前，但事件是。先從 Grok bot 開始，撞到牆再裝 Hermes。",
+    len:"約 10.5 分鐘",url:""
+  }
+];
 </script>
 <script>
 (function(){
@@ -740,6 +781,31 @@ window.__LIMIT__ = 50;
     d.onclick = function(){ ov.classList.remove('show'); go(i); };
     grid.appendChild(d);
   });
+
+  /* ── 影片投影片 s29 動態渲染 ── */
+  (function(){
+    var vg = document.getElementById('vgrid-s29');
+    var vn = document.getElementById('vnote-s29');
+    var VV = window.__VIDEOS__ || [];
+    if(!vg || !VV.length) return;
+    var anyPending = VV.some(function(v){ return !(v.url && v.url.trim()); });
+    if(anyPending && vn){
+      vn.innerHTML = '<div class="vnote">影片錄製中，連結會陸續補上。掃碼後這個網址不會變，之後再回來看就有了。</div>';
+    }
+    vg.innerHTML = VV.map(function(v){
+      var live = v.url && v.url.trim();
+      return '<div class="vcard">' +
+        '<div class="vn">' + v.n + '</div>' +
+        '<h3>' + v.title + '</h3>' +
+        '<p class="vwhat">' + v.what + '</p>' +
+        '<p class="vwhy">' + v.why + '</p>' +
+        '<p class="vmeta"><span>' + v.len + (live ? '' : '　·　尚未上線') + '</span>' +
+        '<a class="vgo" href="' + (live ? v.url : '#') + '"' +
+        (live ? ' target="_blank" rel="noopener"' : ' aria-disabled="true"') + '>' +
+        (live ? '觀看 →' : '準備中') + '</a></p>' +
+        '</div>';
+    }).join('');
+  })();
 
   sync();
 })();
