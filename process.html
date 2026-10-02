@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>多 AI 協作脈絡圖</title>
+<meta name="description" content="2026-10-01 陽明交大太空所演講：一份簡報與四支影片，是怎麼在八個 AI 工具之間完成的">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#070b14;--panel:#111a2c;--line:#1e2c44;--ink:#e8eef7;--dim:#a9bad2;
+  --mute:#7488a5;--cy:#38e1d6;--am:#ffb340;--rd:#ff5c6e;
+  --cjk:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+  --lat:"Archivo","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Mono",Consolas,monospace}
+body{background:var(--bg);color:var(--ink);font-family:var(--lat),var(--cjk);
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(56,225,214,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,225,214,.03) 1px,transparent 1px);background-size:64px 64px}
+.wrap{position:relative;z-index:1;max-width:1760px;margin:0 auto;padding:clamp(2rem,5vw,4rem) 20px 5rem}
+header{border-bottom:1px solid var(--line);padding-bottom:1.8rem;margin-bottom:2.4rem}
+.kicker{font-size:.72rem;letter-spacing:.22em;color:var(--cy);text-transform:uppercase;font-weight:600}
+h1{font-size:clamp(1.8rem,4.4vw,2.9rem);line-height:1.15;margin:.35em 0 .3em;letter-spacing:-.01em}
+.sub{color:var(--dim);font-size:clamp(.92rem,1.5vw,1.08rem);max-width:78ch}
+h2{font-size:clamp(1.15rem,2.2vw,1.6rem);margin:2.8rem 0 .5rem;color:#fff}
+h2 .n{font-family:var(--mono);color:var(--am);margin-right:.5em}
+.lead{color:var(--dim);max-width:86ch;margin-bottom:1.2rem;font-size:.95rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(.9rem,2vw,1.4rem);overflow-x:auto}
+.dia{width:100%;min-width:960px;height:auto;display:block}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:.6rem}
+th{text-align:left;color:var(--cy);font-size:.75rem;letter-spacing:.1em;
+  border-bottom:1px solid var(--line);padding:.6em .7em;font-weight:600;white-space:nowrap}
+td{padding:.6em .7em;border-bottom:1px solid rgba(30,44,68,.6);color:var(--dim);vertical-align:top}
+td.t{font-family:var(--mono);color:var(--am);white-space:nowrap}
+td b{color:#fff}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-top:1rem}
+.c3{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--cy);
+  border-radius:12px;padding:1.1rem 1.2rem}
+.c3 h3{font-size:1.02rem;color:#fff;margin-bottom:.4em}
+.c3 p{font-size:.88rem;color:var(--dim)}
+.punch{font-size:clamp(1rem,1.9vw,1.4rem);font-weight:700;color:#fff;line-height:1.5;
+  border-left:4px solid var(--am);padding-left:1rem;margin:1.6rem 0}
+.note{border-left:3px solid var(--cy);background:rgba(56,225,214,.06);padding:.8rem 1.1rem;
+  border-radius:0 8px 8px 0;color:var(--dim);font-size:.9rem;margin-top:1rem}
+footer{margin-top:3.5rem;border-top:1px solid var(--line);padding-top:1.4rem;
+  color:var(--mute);font-size:.82rem}
+footer a{color:var(--cy);text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">與 AI 互動製作 PPT 的過程</div>
+  <h1>多 AI 協作脈絡圖</h1>
+  <p class="sub">2026-09-30 晚上到 10-01 下午，約 18 小時。一份 60 頁簡報、一個網站、四支共 31 分鐘的教學影片，
+     在 <strong>8 個 AI 工具</strong>之間完成。這張圖要回答的不是「用了哪些工具」，
+     而是 <strong>為什麼在那個時間點換手</strong>。</p>
+</header>
+
+<h2><span class="n">01</span>時間軸：誰在什麼時候做事</h2>
+<p class="lead">每個圓點是一個事件，橘色虛線是換手。滑過圓點看時間，滑過虛線看換手的原因。
+   9/30 夜間那段在軸上有壓縮。</p>
+<div class="card"><svg viewBox="0 0 1680 1094" class="dia" role="img" aria-label="多 AI 協作時間軸"><line x1="326" y1="86" x2="326" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="326" y="78" fill="#7488a5" font-size="13" text-anchor="middle">20:00</text><line x1="479" y1="86" x2="479" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="479" y="78" fill="#7488a5" font-size="13" text-anchor="middle">22:00</text><line x1="771" y1="86" x2="771" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="771" y="78" fill="#7488a5" font-size="13" text-anchor="middle">09:00</text><line x1="945" y1="86" x2="945" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="945" y="78" fill="#7488a5" font-size="13" text-anchor="middle">10:00</text><line x1="1119" y1="86" x2="1119" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="1119" y="78" fill="#7488a5" font-size="13" text-anchor="middle">11:00</text><line x1="1292" y1="86" x2="1292" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="1292" y="78" fill="#7488a5" font-size="13" text-anchor="middle">12:00</text><line x1="1466" y1="86" x2="1466" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="1466" y="78" fill="#7488a5" font-size="13" text-anchor="middle">13:00</text><line x1="1640" y1="86" x2="1640" y2="944" stroke="#1e2c44" stroke-width="1"/><text x="1640" y="78" fill="#7488a5" font-size="13" text-anchor="middle">14:00</text><text x="306" y="54" fill="#38e1d6" font-size="14" font-weight="700">09-30（週三夜）</text><text x="661" y="54" fill="#38e1d6" font-size="14" font-weight="700">10-01（演講當天）</text><path d="M612,92 l14,-10" stroke="#1e2c44" stroke-width="2" fill="none"/><path d="M612,944 l14,-10" stroke="#1e2c44" stroke-width="2" fill="none"/><path d="M622,92 l14,-10" stroke="#1e2c44" stroke-width="2" fill="none"/><path d="M622,944 l14,-10" stroke="#1e2c44" stroke-width="2" fill="none"/><rect x="300" y="112" width="1340" height="104" fill="#0d1524" opacity=".55"/><rect x="20" y="126" width="4" height="76" fill="#38e1d6" rx="2"/><text x="36" y="142" fill="#e8eef7" font-size="15" font-weight="700">VSCode + Claude Code</text><text x="36" y="162" fill="#7488a5" font-size="12">主力：讀素材、寫產生器、排版、部署</text><rect x="20" y="230" width="4" height="76" fill="#7aa2f7" rx="2"/><text x="36" y="246" fill="#e8eef7" font-size="15" font-weight="700">Antigravity IDE + Claude</text><text x="36" y="266" fill="#7488a5" font-size="12">Agent-first 環境：教學影片製作</text><rect x="300" y="320" width="1340" height="104" fill="#0d1524" opacity=".55"/><rect x="20" y="334" width="4" height="76" fill="#c792ea" rx="2"/><text x="36" y="350" fill="#e8eef7" font-size="15" font-weight="700">Antigravity + opencode</text><text x="36" y="370" fill="#7488a5" font-size="12">Claude 額度用完後的接手：Ollama glm-5.2:cloud</text><rect x="20" y="438" width="4" height="76" fill="#ffb340" rx="2"/><text x="36" y="454" fill="#e8eef7" font-size="15" font-weight="700">Claude Desktop</text><text x="36" y="474" fill="#7488a5" font-size="12">讀本機歷史影片，抓講者聲線</text><rect x="300" y="528" width="1340" height="104" fill="#0d1524" opacity=".55"/><rect x="20" y="542" width="4" height="76" fill="#8fd67a" rx="2"/><text x="36" y="558" fill="#e8eef7" font-size="15" font-weight="700">ChatGPT</text><text x="36" y="578" fill="#7488a5" font-size="12">40 分鐘演講影片 → 音訊逐字稿</text><rect x="20" y="646" width="4" height="76" fill="#ff8fb1" rx="2"/><text x="36" y="662" fill="#e8eef7" font-size="15" font-weight="700">Gemini</text><text x="36" y="682" fill="#7488a5" font-size="12">交叉驗證 Claude 產出的科學敘述</text><rect x="300" y="736" width="1340" height="104" fill="#0d1524" opacity=".55"/><rect x="20" y="750" width="4" height="76" fill="#f78c6c" rx="2"/><text x="36" y="766" fill="#e8eef7" font-size="15" font-weight="700">GitHub Copilot Agent</text><text x="36" y="786" fill="#7488a5" font-size="12">雲端 agent 直接對 repo 開 PR</text><rect x="20" y="854" width="4" height="76" fill="#79b8ff" rx="2"/><text x="36" y="870" fill="#e8eef7" font-size="15" font-weight="700">Grok Bot</text><text x="36" y="890" fill="#7488a5" font-size="12">讀 repo 做結構摘要，獨立抓出網址不符</text><circle cx="313" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>09-30 19:50　讀專案 → 指出時程衝突 → 工作計畫</title></circle><text x="325" y="151" fill="#a9bad2" font-size="12.5" text-anchor="start">讀專案 → 指出時程衝突 → 工作計畫</text><line x1="327" y1="156" x2="327" y2="137" stroke="#8fa3bd" stroke-width="1" opacity=".45"/><circle cx="327" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>09-30 20:01　決策確認：一鏡到底／公開／太空所</title></circle><text x="339" y="133" fill="#a9bad2" font-size="12.5" text-anchor="start">決策確認：一鏡到底／公開／太空所</text><circle cx="556" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>09-30 23:00　45 頁簡報 + PPTX + PDF 產生器成形</title></circle><text x="568" y="151" fill="#a9bad2" font-size="12.5" text-anchor="start">45 頁簡報 + PPTX + PDF 產生器成形</text><line x1="693" y1="156" x2="693" y2="137" stroke="#8fa3bd" stroke-width="1" opacity=".45"/><circle cx="693" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>10-01 08:33　加入火球與爆炸事件（+6 頁）</title></circle><text x="705" y="133" fill="#a9bad2" font-size="12.5" text-anchor="start">加入火球與爆炸事件（+6 頁）</text><line x1="716" y1="156" x2="716" y2="119" stroke="#8fa3bd" stroke-width="1" opacity=".45"/><circle cx="716" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>10-01 08:41　教學影片腳本</title></circle><text x="728" y="115" fill="#a9bad2" font-size="12.5" text-anchor="start">教學影片腳本</text><circle cx="783" cy="164" r="5" fill="#38e1d6" stroke="#070b14" stroke-width="2"><title>10-01 09:04　東加論文：抓圖、修正自己的錯誤</title></circle><text x="795" y="151" fill="#a9bad2" font-size="12.5" text-anchor="start">東加論文：抓圖、修正自己的錯誤</text><line x1="843" y1="156" x2="843" y2="119" stroke="#8fd67a" stroke-width="1" opacity=".45"/><circle cx="843" cy="164" r="7" fill="#8fd67a" stroke="#070b14" stroke-width="2"><title>10-01 09:25　用 .env 部署，QR 實際解碼驗證</title></circle><text x="855" y="115" fill="#a9bad2" font-size="12.5" text-anchor="start">用 .env 部署，QR 實際解碼驗證</text><line x1="884" y1="156" x2="884" y2="137" stroke="#8fa3bd" stroke-width="1" opacity=".45"/><circle cx="884" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>10-01 09:39　排版重做 + 影片動畫 + Grok bot 頁</title></circle><text x="896" y="133" fill="#a9bad2" font-size="12.5" text-anchor="start">排版重做 + 影片動畫 + Grok bot 頁</text><circle cx="1234" cy="164" r="7" fill="#ff5c6e" stroke="#070b14" stroke-width="2"><title>10-01 11:40　Claude session limit 用完</title></circle><text x="1246" y="151" fill="#a9bad2" font-size="12.5" text-anchor="start">Claude session limit 用完</text><line x1="1495" y1="156" x2="1495" y2="137" stroke="#8fd67a" stroke-width="1" opacity=".45"/><circle cx="1495" cy="164" r="7" fill="#8fd67a" stroke="#070b14" stroke-width="2"><title>10-01 13:10　4 支影片上線（31 分鐘）</title></circle><text x="1483" y="133" fill="#a9bad2" font-size="12.5" text-anchor="end">4 支影片上線（31 分鐘）</text><circle cx="1594" cy="164" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>10-01 13:44　寫 README</title></circle><text x="1582" y="151" fill="#a9bad2" font-size="12.5" text-anchor="end">寫 README</text><circle cx="759" cy="268" r="7" fill="#ffb340" stroke="#070b14" stroke-width="2"><title>10-01 08:56　轉 Antigravity 做影片</title></circle><text x="771" y="255" fill="#a9bad2" font-size="12.5" text-anchor="start">轉 Antigravity 做影片</text><circle cx="956" cy="788" r="7" fill="#ffb340" stroke="#070b14" stroke-width="2"><title>10-01 10:04　Copilot Agent 開 PR 改 index.html</title></circle><text x="968" y="775" fill="#a9bad2" font-size="12.5" text-anchor="start">Copilot Agent 開 PR 改 index.html</text><circle cx="956" cy="892" r="5" fill="#38e1d6" stroke="#070b14" stroke-width="2"><title>10-01 10:04　Grok 讀 repo：抓出 Pages 網址帳號不符</title></circle><text x="968" y="879" fill="#a9bad2" font-size="12.5" text-anchor="start">Grok 讀 repo：抓出 Pages 網址帳號不符</text><circle cx="1124" cy="580" r="7" fill="#ffb340" stroke="#070b14" stroke-width="2"><title>10-01 11:02　上傳 0930-英文.mp4 轉逐字稿</title></circle><text x="1136" y="567" fill="#a9bad2" font-size="12.5" text-anchor="start">上傳 0930-英文.mp4 轉逐字稿</text><circle cx="1130" cy="476" r="7" fill="#ff5c6e" stroke="#070b14" stroke-width="2"><title>10-01 11:04　發現旁白是女聲 → 讀歷史影片抓聲線</title></circle><text x="1142" y="463" fill="#a9bad2" font-size="12.5" text-anchor="start">發現旁白是女聲 → 讀歷史影片抓聲線</text><circle cx="1391" cy="476" r="7" fill="#ff5c6e" stroke="#070b14" stroke-width="2"><title>10-01 12:34　聲線修正第 2 輪</title></circle><text x="1403" y="463" fill="#a9bad2" font-size="12.5" text-anchor="start">聲線修正第 2 輪</text><line x1="1394" y1="468" x2="1394" y2="449" stroke="#ff5c6e" stroke-width="1" opacity=".45"/><circle cx="1394" cy="476" r="7" fill="#ff5c6e" stroke="#070b14" stroke-width="2"><title>10-01 12:35　聲線修正第 3 輪</title></circle><text x="1406" y="445" fill="#a9bad2" font-size="12.5" text-anchor="start">聲線修正第 3 輪</text><circle cx="1162" cy="684" r="5" fill="#38e1d6" stroke="#070b14" stroke-width="2"><title>10-01 11:15　把東加那頁截圖問「這是正確的嗎？」</title></circle><text x="1174" y="671" fill="#a9bad2" font-size="12.5" text-anchor="start">把東加那頁截圖問「這是正確的嗎？」</text><circle cx="1240" cy="372" r="7" fill="#ffb340" stroke="#070b14" stroke-width="2"><title>10-01 11:42　改用 Ollama glm-5.2:cloud 續做排版</title></circle><text x="1252" y="359" fill="#a9bad2" font-size="12.5" text-anchor="start">改用 Ollama glm-5.2:cloud 續做排版</text><line x1="1287" y1="364" x2="1287" y2="345" stroke="#8fa3bd" stroke-width="1" opacity=".45"/><circle cx="1287" cy="372" r="5" fill="#8fa3bd" stroke="#070b14" stroke-width="2"><title>10-01 11:58　匯出 session_record_vscode.md</title></circle><text x="1299" y="341" fill="#a9bad2" font-size="12.5" text-anchor="start">匯出 session_record_vscode.md</text><path d="M759,164 C793,216 793,216 759,268" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>影片要 agent-first 環境</title></path><path d="M1124,164 C1158,372 1158,372 1124,580" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>要音訊轉文字</title></path><path d="M1130,580 C1164,528 1164,528 1130,476" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>要讀本機歷史影片</title></path><path d="M1162,164 C1196,424 1196,424 1162,684" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>要第二個模型把關</title></path><path d="M956,164 C990,476 990,476 956,788" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>雲端 agent 直接動 repo</title></path><path d="M1240,164 C1274,268 1274,268 1240,372" fill="none" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4" opacity=".75"><title>Claude 額度用完</title></path><circle cx="300" cy="990" r="6" fill="#8fa3bd"/><text x="314" y="995" fill="#8fa3bd" font-size="13">進行中</text><circle cx="420" cy="990" r="6" fill="#ffb340"/><text x="434" y="995" fill="#8fa3bd" font-size="13">換手</text><circle cx="540" cy="990" r="6" fill="#ff5c6e"/><text x="554" y="995" fill="#8fa3bd" font-size="13">踩到限制</text><circle cx="660" cy="990" r="6" fill="#38e1d6"/><text x="674" y="995" fill="#8fa3bd" font-size="13">驗證／修正</text><circle cx="780" cy="990" r="6" fill="#8fd67a"/><text x="794" y="995" fill="#8fa3bd" font-size="13">交付上線</text><path d="M906,990 l22,0" stroke="#ffb340" stroke-width="1.4" stroke-dasharray="4 4"/><text x="934" y="995" fill="#8fa3bd" font-size="13">換手（滑過看原因）</text></svg></div>
+
+<h2><span class="n">02</span>六次換手，每一次都有明確的觸發</h2>
+<p class="lead">換工具不是嘗鮮。每一次都是<strong>撞到當下工具的邊界</strong>才換 ——
+   這張表才是整個流程真正的骨架。</p>
+<div class="card">
+<table>
+<thead><tr><th>時間</th><th>換到哪</th><th>觸發的問題</th><th>為什麼是它</th></tr></thead>
+<tbody><tr><td class="t">08:56</td><td><b>VSCode → Antigravity IDE</b></td><td>教學影片要在 agent-first 的環境裡做</td><td>同樣是 Claude，但 IDE 的 agent 能力與工作流不同</td></tr><tr><td class="t">10:04</td><td><b>本機 → Copilot Agent + Grok Bot</b></td><td>想讓雲端 agent 直接動 repo</td><td>兩個雲端 agent 同時對同一個 repo 工作，人不必在場</td></tr><tr><td class="t">11:02</td><td><b>Claude → ChatGPT</b></td><td>需要自己演講影片的逐字稿</td><td>40 分鐘影片的音訊轉文字，多模態處理</td></tr><tr><td class="t">11:04</td><td><b>ChatGPT → Claude Desktop</b></td><td>合成旁白是女聲，不是講者本人</td><td>桌面版讀得到本機歷史演講影片，才抓得到聲線</td></tr><tr><td class="t">11:15</td><td><b>Claude → Gemini</b></td><td>怕單一模型自信地講錯</td><td>把簡報頁截圖丟過去問「這是正確的嗎？」</td></tr><tr><td class="t">11:40</td><td><b>Claude → Ollama glm-5.2:cloud</b></td><td>Claude session limit 用完</td><td>在 Antigravity 裡用 opencode 接不同後端，工作不中斷</td></tr></tbody>
+</table>
+</div>
+
+<h2><span class="n">03</span>三個回饋迴路</h2>
+<p class="lead">流程不是一條直線。真正決定品質的是這三個會繞回去的迴路 ——
+   其中兩個是因為<strong>先發現錯了</strong>才存在的。</p>
+<div class="card"><svg viewBox="0 0 1680 510" class="dia" role="img" aria-label="三個回饋迴路"><rect x="150" y="110" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="150" y="110" width="4" height="62" rx="2" fill="#38e1d6"/><text x="168" y="136" fill="#fff" font-size="15" font-weight="700">Claude 產出</text><text x="168" y="156" fill="#8fa3bd" font-size="12.5">簡報內容／科學敘述</text><rect x="470" y="110" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="470" y="110" width="4" height="62" rx="2" fill="#8fa3bd"/><text x="488" y="136" fill="#fff" font-size="15" font-weight="700">人：截圖丟給 Gemini</text><text x="488" y="156" fill="#8fa3bd" font-size="12.5">「這是正確的嗎？」</text><rect x="790" y="110" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="790" y="110" width="4" height="62" rx="2" fill="#ff8fb1"/><text x="808" y="136" fill="#fff" font-size="15" font-weight="700">Gemini 逐項檢驗</text><text x="808" y="156" fill="#8fa3bd" font-size="12.5">確認或指出錯誤</text><rect x="150" y="256" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="150" y="256" width="4" height="62" rx="2" fill="#ffb340"/><text x="168" y="282" fill="#fff" font-size="15" font-weight="700">合成旁白</text><text x="168" y="302" fill="#8fa3bd" font-size="12.5">預設女聲</text><rect x="470" y="256" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="470" y="256" width="4" height="62" rx="2" fill="#8fa3bd"/><text x="488" y="282" fill="#fff" font-size="15" font-weight="700">人：發現不是我的聲音</text><text x="488" y="302" fill="#8fa3bd" font-size="12.5">11:04 察覺</text><rect x="790" y="256" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="790" y="256" width="4" height="62" rx="2" fill="#ffb340"/><text x="808" y="282" fill="#fff" font-size="15" font-weight="700">Claude Desktop</text><text x="808" y="302" fill="#8fa3bd" font-size="12.5">讀本機歷史演講影片抓聲線</text><rect x="1110" y="256" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="1110" y="256" width="4" height="62" rx="2" fill="#ff5c6e"/><text x="1128" y="282" fill="#fff" font-size="15" font-weight="700">重新合成</text><text x="1128" y="302" fill="#8fa3bd" font-size="12.5">11:04 → 12:34 → 12:35</text><rect x="150" y="392" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="150" y="392" width="4" height="62" rx="2" fill="#8fd67a"/><text x="168" y="418" fill="#fff" font-size="15" font-weight="700">本機建置</text><text x="168" y="438" fill="#8fa3bd" font-size="12.5">build_all.py</text><rect x="470" y="392" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="470" y="392" width="4" height="62" rx="2" fill="#8fd67a"/><text x="488" y="418" fill="#fff" font-size="15" font-weight="700">push → Pages</text><text x="488" y="438" fill="#8fa3bd" font-size="12.5">輪詢建置狀態</text><rect x="790" y="392" width="210" height="62" rx="10" fill="#111a2c" stroke="#1e2c44"/><rect x="790" y="392" width="4" height="62" rx="2" fill="#8fd67a"/><text x="808" y="418" fill="#fff" font-size="15" font-weight="700">實際抓線上版驗證</text><text x="808" y="438" fill="#8fa3bd" font-size="12.5">解碼 QR／量版面溢出</text><path d="M360,141 L461,141" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="470,141 461,136 461,146" fill="#38e1d6"/><path d="M680,141 L781,141" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="790,141 781,136 781,146" fill="#38e1d6"/><path d="M360,287 L461,287" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="470,287 461,282 461,292" fill="#38e1d6"/><path d="M680,287 L781,287" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="790,287 781,282 781,292" fill="#38e1d6"/><path d="M1000,287 L1101,287" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="1110,287 1101,282 1101,292" fill="#38e1d6"/><path d="M360,423 L461,423" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="470,423 461,418 461,428" fill="#38e1d6"/><path d="M680,423 L781,423" stroke="#38e1d6" stroke-width="1.6" fill="none"/><polygon points="790,423 781,418 781,428" fill="#38e1d6"/><path d="M895,172 C895,206 255,206 255,178" stroke="#ff8fb1" stroke-width="1.6" fill="none" stroke-dasharray="5 4"/><polygon points="255,172 250,181 260,181" fill="#ff8fb1"/><text x="575" y="222" fill="#ff8fb1" font-size="12.5" text-anchor="middle">不符就回去改（東加那頁的感測器清單就是這樣修掉的）</text><path d="M1215,318 C1215,352 255,352 255,324" stroke="#ff5c6e" stroke-width="1.6" fill="none" stroke-dasharray="5 4"/><polygon points="255,318 250,327 260,327" fill="#ff5c6e"/><text x="735" y="368" fill="#ff5c6e" font-size="12.5" text-anchor="middle">還是不像 → 再抓一次（共三輪）</text><path d="M895,454 C895,488 255,488 255,460" stroke="#8fd67a" stroke-width="1.6" fill="none" stroke-dasharray="5 4"/><polygon points="255,454 250,463 260,463" fill="#8fd67a"/><text x="575" y="504" fill="#8fd67a" font-size="12.5" text-anchor="middle">QR 掃不到／版面溢出就回去重建</text><text x="24" y="96" fill="#ffb340" font-size="14" font-weight="700">① 驗證迴路</text><text x="24" y="242" fill="#ffb340" font-size="14" font-weight="700">② 聲線迴路</text><text x="24" y="378" fill="#ffb340" font-size="14" font-weight="700">③ 部署迴路</text></svg></div>
+
+<h2><span class="n">04</span>從這 18 小時看到的四件事</h2>
+<div class="grid3">
+  <div class="c3"><h3>撞到邊界才換手</h3>
+    <p>六次換手沒有一次是因為「想試試看」。影片要 agent-first 環境、聲線要讀本機檔案、
+       額度用完要換後端 —— 每一次都是當下工具做不到，而不是哪個工具比較好。</p></div>
+  <div class="c3"><h3>交叉驗證是人的工作</h3>
+    <p>Claude 把東加論文的感測器清單寫錯過一次，是讀論文時自己抓到的；
+       但真正讓人放心的，是把那一頁截圖丟給 Gemini 逐項檢驗。
+       <b>單一模型會很有自信地講錯。</b></p></div>
+  <div class="c3"><h3>產生物不要手改</h3>
+    <p>Copilot Agent 直接改了產生出來的 <code>index.html</code>，
+       那份工作下一次重建就會消失。解法不是回退，是<b>把它移植進產生器</b>，
+       讓所有輸出都從同一份資料來。</p></div>
+  <div class="c3"><h3>失敗要留在記錄裡</h3>
+    <p>聲線修了三輪、Claude 額度中途用完、PPTX 一開始看不到所以盲改。
+       這些才是真正可以複製的經驗 —— 成功的部分反而最難學。</p></div>
+</div>
+
+<p class="punch">工具會換，判斷不會。<br>
+   這 18 小時裡換了 8 個 AI，唯一累積下來的是「知道什麼時候該懷疑結果」。</p>
+
+<div class="note">
+  這張圖的依據是 18 小時裡的 13 張工具截圖與完整對話逐字稿。那些記錄含有本機路徑、帳號與其他專案名稱，<b>保留在本機未發佈</b>；圖上每一個時間點都來自那些記錄的時間戳。
+</div>
+
+<footer>
+  陳達毅｜2026.10.01 陽明交通大學太空研究所演講<br>
+  簡報：<a href="https://oceanicdayi.github.io/1001-nycu-space/">oceanicdayi.github.io/1001-nycu-space</a>　·
+  Repo：<a href="https://github.com/oceanicdayi/1001-nycu-space">github.com/oceanicdayi/1001-nycu-space</a>
+</footer>
+
+</div>
+</body>
+</html>
